@@ -115,7 +115,7 @@ export function ReviewModal({
       <DialogHeader>
         <DialogTitle>Evaluate Project Submission</DialogTitle>
         <DialogDescription>
-          Reviewing <span className="text-white font-medium">"{submission.project_name}"</span> submitted by {submission.user?.name || "Student"}
+          Reviewing <span className="text-zinc-100 font-medium">"{submission.project_name}"</span> submitted by {submission.user?.name || "Student"}
         </DialogDescription>
       </DialogHeader>
 
@@ -127,7 +127,7 @@ export function ReviewModal({
         )}
 
         <div>
-          <label className="block text-xs font-semibold text-slate-300 mb-2 uppercase tracking-wider">
+          <label className="block text-xs font-semibold text-zinc-700 dark:text-zinc-300 mb-2 uppercase tracking-wider">
             Evaluation Decision
           </label>
           <div className="grid grid-cols-2 gap-3">
@@ -136,11 +136,11 @@ export function ReviewModal({
               onClick={() => setStatus("APPROVED")}
               className={`flex items-center justify-center gap-2 rounded-xl border p-3.5 text-sm font-semibold transition-all ${
                 status === "APPROVED"
-                  ? "border-emerald-500 bg-emerald-950/40 text-emerald-300 ring-2 ring-emerald-500/30"
-                  : "border-slate-800 bg-slate-900/40 text-slate-400 hover:border-slate-700 hover:text-slate-200"
+                  ? "border-emerald-500 bg-emerald-50 text-emerald-700 ring-2 ring-emerald-500/30 dark:bg-emerald-950/40 dark:text-emerald-300"
+                  : "border-zinc-300 bg-zinc-50 text-zinc-600 hover:bg-zinc-100 hover:text-zinc-900 dark:border-zinc-800 dark:bg-zinc-950 dark:text-zinc-400 dark:hover:border-zinc-700 dark:hover:text-zinc-200"
               }`}
             >
-              <CheckCircle2 className="h-5 w-5 text-emerald-400" />
+              <CheckCircle2 className="h-5 w-5 text-emerald-600 dark:text-emerald-400" />
               Approve Project
             </button>
 
@@ -149,19 +149,19 @@ export function ReviewModal({
               onClick={() => setStatus("REJECTED")}
               className={`flex items-center justify-center gap-2 rounded-xl border p-3.5 text-sm font-semibold transition-all ${
                 status === "REJECTED"
-                  ? "border-rose-500 bg-rose-950/40 text-rose-300 ring-2 ring-rose-500/30"
-                  : "border-slate-800 bg-slate-900/40 text-slate-400 hover:border-slate-700 hover:text-slate-200"
+                  ? "border-rose-500 bg-rose-50 text-rose-700 ring-2 ring-rose-500/30 dark:bg-rose-950/40 dark:text-rose-300"
+                  : "border-zinc-300 bg-zinc-50 text-zinc-600 hover:bg-zinc-100 hover:text-zinc-900 dark:border-zinc-800 dark:bg-zinc-950 dark:text-zinc-400 dark:hover:border-zinc-700 dark:hover:text-zinc-200"
               }`}
             >
-              <XCircle className="h-5 w-5 text-rose-400" />
+              <XCircle className="h-5 w-5 text-rose-600 dark:text-rose-400" />
               Reject Project
             </button>
           </div>
         </div>
 
         <div>
-          <label className="block text-xs font-semibold text-slate-300 mb-1.5 uppercase tracking-wider">
-            Mentor Feedback & Recommendations <span className="text-rose-400">*</span>
+          <label className="block text-xs font-semibold text-zinc-700 dark:text-zinc-300 mb-1.5 uppercase tracking-wider">
+            Mentor Feedback & Recommendations <span className="text-rose-500">*</span>
           </label>
           <Textarea
             rows={4}

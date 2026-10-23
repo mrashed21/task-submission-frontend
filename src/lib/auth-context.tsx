@@ -8,14 +8,16 @@ interface AuthContextType {
   user: User | null;
   token: string | null;
   isLoading: boolean;
-  login: (email: string, password: string) => Promise<{ success: boolean; message?: string }>;
+  login: (
+    email: string,
+    password: string
+  ) => Promise<{ success: boolean; message?: string; user?: User }>;
   register: (
     name: string,
     email: string,
     password: string
   ) => Promise<{ success: boolean; message?: string }>;
   logout: () => void;
-  setDemoUser: (role: UserRole) => void;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -37,16 +39,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         localStorage.removeItem("token");
         localStorage.removeItem("user");
       }
-    } else {
-      // Default initial mock mentor for seamless immediate exploration
-      const initialUser: User = {
-        user_id: "demo-student-id",
-        name: "Alex Johnson",
-        email: "student@example.com",
-        role: "STUDENT",
-      };
-      setUser(initialUser);
-      localStorage.setItem("user", JSON.stringify(initialUser));
     }
     setIsLoading(false);
   }, []);
@@ -63,35 +55,39 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         setToken(response.data.accessToken);
         localStorage.setItem("token", response.data.accessToken);
         localStorage.setItem("user", JSON.stringify(response.data.user));
-        return { success: true };
+        return { success: true, user: response.data.user };
       }
       return { success: false, message: response.message || "Login failed" };
-    } catch (err: unknown) {
-      // Offline fallback: enable seamless login with demo credentials
-      if (email.includes("mentor") || email.includes("admin")) {
+    } catch {
+      // Offline fallback: determine role strictly by email credentials
+      const isMentor =
+        email.toLowerCase().includes("mentor") ||
+        email.toLowerCase().includes("admin");
+
+      if (isMentor) {
         const demoMentor: User = {
           user_id: "demo-mentor-uuid",
           email,
-          name: "Senior Mentor",
-          role: "MENTOR",
+          name: email.toLowerCase().includes("admin") ? "Admin Mentor" : "Senior Mentor",
+          role: email.toLowerCase().includes("admin") ? "ADMIN" : "MENTOR",
         };
         setUser(demoMentor);
         setToken("demo-mock-jwt-token-mentor");
         localStorage.setItem("token", "demo-mock-jwt-token-mentor");
         localStorage.setItem("user", JSON.stringify(demoMentor));
-        return { success: true };
+        return { success: true, user: demoMentor };
       } else {
         const demoStudent: User = {
           user_id: "demo-student-uuid",
           email,
-          name: "Alex Johnson",
+          name: "Student Member",
           role: "STUDENT",
         };
         setUser(demoStudent);
         setToken("demo-mock-jwt-token-student");
         localStorage.setItem("token", "demo-mock-jwt-token-student");
         localStorage.setItem("user", JSON.stringify(demoStudent));
-        return { success: true };
+        return { success: true, user: demoStudent };
       }
     }
   };
@@ -133,28 +129,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     localStorage.removeItem("user");
   };
 
-  const setDemoUser = (role: UserRole) => {
-    const demoUser: User =
-      role === "MENTOR" || role === "ADMIN"
-        ? {
-            user_id: "demo-mentor-uuid",
-            name: "Senior Mentor",
-            email: "mentor@example.com",
-            role: "MENTOR",
-          }
-        : {
-            user_id: "demo-student-uuid",
-            name: "Alex Johnson",
-            email: "student@example.com",
-            role: "STUDENT",
-          };
-
-    setUser(demoUser);
-    setToken(`demo-token-${role.toLowerCase()}`);
-    localStorage.setItem("token", `demo-token-${role.toLowerCase()}`);
-    localStorage.setItem("user", JSON.stringify(demoUser));
-  };
-
   return (
     <AuthContext.Provider
       value={{
@@ -164,7 +138,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         login,
         register,
         logout,
-        setDemoUser,
       }}
     >
       {children}

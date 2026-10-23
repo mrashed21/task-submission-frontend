@@ -22,7 +22,7 @@ const TableHeader = React.forwardRef<
   <thead
     ref={ref}
     className={cn(
-      "border-b border-slate-800 bg-slate-900/80 text-xs font-semibold text-slate-400 uppercase tracking-wider",
+      "border-b border-zinc-200 bg-zinc-50 text-xs font-semibold text-zinc-600 uppercase tracking-wider dark:border-zinc-800 dark:bg-zinc-950 dark:text-zinc-400",
       className
     )}
     {...props}
@@ -36,7 +36,7 @@ const TableBody = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <tbody
     ref={ref}
-    className={cn("divide-y divide-slate-800/60 bg-transparent", className)}
+    className={cn("divide-y divide-zinc-200 bg-transparent dark:divide-zinc-800", className)}
     {...props}
   />
 ));
@@ -49,7 +49,7 @@ const TableRow = React.forwardRef<
   <tr
     ref={ref}
     className={cn(
-      "transition-colors hover:bg-slate-800/40 data-[state=selected]:bg-slate-800",
+      "transition-colors hover:bg-zinc-50 data-[state=selected]:bg-zinc-100 dark:hover:bg-zinc-900/50 dark:data-[state=selected]:bg-zinc-900",
       className
     )}
     {...props}
@@ -75,7 +75,7 @@ const TableCell = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <td
     ref={ref}
-    className={cn("p-4 align-middle text-slate-200", className)}
+    className={cn("p-4 align-middle text-zinc-800 dark:text-zinc-200", className)}
     {...props}
   />
 ));

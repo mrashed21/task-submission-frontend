@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { Navbar } from "@/components/shared/navbar";
 import { AuthProvider } from "@/lib/auth-context";
+import { ThemeProvider } from "@/lib/theme-context";
 import "./globals.css";
 
 const inter = Inter({
@@ -21,19 +22,21 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="dark">
+    <html lang="en" className="dark" suppressHydrationWarning>
       <body
-        className={`${inter.variable} min-h-screen bg-slate-950 font-sans text-slate-100 antialiased selection:bg-indigo-500 selection:text-white`}
+        className={`${inter.variable} min-h-screen bg-white text-zinc-900 dark:bg-black dark:text-zinc-100 font-sans antialiased selection:bg-[#1877f2] selection:text-white transition-colors duration-150`}
       >
-        <AuthProvider>
-          <div className="flex min-h-screen flex-col">
-            <Navbar />
-            <main className="flex-1">{children}</main>
-            <footer className="border-t border-slate-900 bg-slate-950/60 py-6 text-center text-xs text-slate-500">
-              DevReviewHub &copy; 2026 &bull; Technical Hiring Task &bull; Next.js App Router & Express API
-            </footer>
-          </div>
-        </AuthProvider>
+        <ThemeProvider>
+          <AuthProvider>
+            <div className="flex min-h-screen flex-col">
+              <Navbar />
+              <main className="flex-1">{children}</main>
+              <footer className="border-t border-zinc-200 bg-white py-6 text-center text-xs text-zinc-500 dark:border-zinc-900 dark:bg-black dark:text-zinc-500">
+                DevReviewHub &copy; 2026 &bull; Technical Hiring Task &bull; Next.js App Router & Express API
+              </footer>
+            </div>
+          </AuthProvider>
+        </ThemeProvider>
       </body>
     </html>
   );

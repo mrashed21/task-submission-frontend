@@ -70,15 +70,15 @@ export function SubmissionsTable({
       {/* Table Controls: Server-side filters & Search */}
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         {/* Status Filter Tabs (Server-side) */}
-        <div className="flex items-center gap-1 rounded-xl border border-slate-800 bg-slate-900/60 p-1">
+        <div className="flex items-center gap-1 rounded-xl border border-zinc-200 bg-zinc-50 dark:border-zinc-800 dark:bg-zinc-950 p-1">
           {filterTabs.map((tab) => (
             <button
               key={tab.id}
               onClick={() => onStatusFilterChange(tab.id)}
               className={`rounded-lg px-3 py-1.5 text-xs font-semibold transition-all ${
                 statusFilter === tab.id
-                  ? "bg-indigo-600 text-white shadow-sm"
-                  : "text-slate-400 hover:text-slate-200"
+                  ? "bg-[#1877f2] text-white shadow-sm"
+                  : "text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-200"
               }`}
             >
               {tab.label}
@@ -88,7 +88,7 @@ export function SubmissionsTable({
 
         {/* Search input */}
         <div className="relative w-full sm:w-72">
-          <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-500" />
+          <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-zinc-400" />
           <Input
             placeholder="Search projects or students..."
             className="pl-9 h-9 text-xs"
@@ -99,7 +99,7 @@ export function SubmissionsTable({
       </div>
 
       {/* Paginated Data Table */}
-      <div className="overflow-hidden rounded-xl border border-slate-800 bg-slate-900/60 shadow-xl backdrop-blur-sm">
+      <div className="overflow-hidden rounded-xl border border-zinc-200 bg-white dark:border-zinc-800 dark:bg-black shadow-sm">
         <Table>
           <TableHeader>
             <TableRow>
@@ -114,13 +114,13 @@ export function SubmissionsTable({
           <TableBody>
             {isLoading ? (
               <TableRow>
-                <TableCell colSpan={6} className="h-40 text-center text-slate-400">
+                <TableCell colSpan={6} className="h-40 text-center text-zinc-500 dark:text-zinc-400">
                   Loading submissions...
                 </TableCell>
               </TableRow>
             ) : submissions.length === 0 ? (
               <TableRow>
-                <TableCell colSpan={6} className="h-40 text-center text-slate-400">
+                <TableCell colSpan={6} className="h-40 text-center text-zinc-500 dark:text-zinc-400">
                   No project submissions found for the selected filter.
                 </TableCell>
               </TableRow>
@@ -128,16 +128,16 @@ export function SubmissionsTable({
               submissions.map((sub) => (
                 <TableRow key={sub.submission_id}>
                   <TableCell>
-                    <div className="font-semibold text-white">{sub.project_name}</div>
-                    <div className="mt-0.5 line-clamp-1 max-w-[240px] text-xs text-slate-400">
+                    <div className="font-semibold text-zinc-900 dark:text-zinc-100">{sub.project_name}</div>
+                    <div className="mt-0.5 line-clamp-1 max-w-[240px] text-xs text-zinc-500 dark:text-zinc-400">
                       {sub.description}
                     </div>
                   </TableCell>
                   <TableCell>
-                    <div className="text-xs font-medium text-slate-200">
+                    <div className="text-xs font-medium text-zinc-800 dark:text-zinc-200">
                       {sub.user?.name || "Student"}
                     </div>
-                    <div className="text-[11px] text-slate-500">{sub.user?.email}</div>
+                    <div className="text-[11px] text-zinc-500 dark:text-zinc-400">{sub.user?.email}</div>
                   </TableCell>
                   <TableCell>
                     <div className="flex items-center gap-2">
@@ -145,7 +145,7 @@ export function SubmissionsTable({
                         href={sub.repo_url}
                         target="_blank"
                         rel="noreferrer"
-                        className="inline-flex items-center gap-1 rounded-md bg-slate-800 px-2 py-1 text-[11px] font-medium text-slate-300 hover:bg-slate-700 hover:text-white"
+                        className="inline-flex items-center gap-1 rounded-md border border-zinc-200 bg-zinc-50 px-2 py-1 text-[11px] font-medium text-zinc-700 hover:bg-zinc-100 dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-300 dark:hover:bg-zinc-800"
                         title={sub.repo_url}
                       >
                         <GithubIcon className="h-3 w-3" />
@@ -155,7 +155,7 @@ export function SubmissionsTable({
                         href={sub.live_link}
                         target="_blank"
                         rel="noreferrer"
-                        className="inline-flex items-center gap-1 rounded-md bg-indigo-950/60 px-2 py-1 text-[11px] font-medium text-indigo-300 hover:bg-indigo-900 hover:text-white"
+                        className="inline-flex items-center gap-1 rounded-md border border-[#1877f2]/20 bg-[#1877f2]/10 px-2 py-1 text-[11px] font-medium text-[#1877f2] dark:text-[#38bdf8] hover:bg-[#1877f2]/20"
                         title={sub.live_link}
                       >
                         <ExternalLink className="h-3 w-3" />
@@ -163,7 +163,7 @@ export function SubmissionsTable({
                       </a>
                     </div>
                   </TableCell>
-                  <TableCell className="text-xs text-slate-400">
+                  <TableCell className="text-xs text-zinc-500 dark:text-zinc-400">
                     {formatDate(sub.created_at)}
                   </TableCell>
                   <TableCell>
@@ -172,12 +172,12 @@ export function SubmissionsTable({
                   <TableCell className="text-right">
                     <Button
                       size="sm"
-                      variant={sub.status === "PENDING" ? "default" : "secondary"}
+                      variant={(sub.status || "").toUpperCase() === "PENDING" ? "default" : "secondary"}
                       className="h-8 text-xs gap-1.5"
                       onClick={() => handleOpenReview(sub)}
                     >
                       <MessageSquare className="h-3.5 w-3.5" />
-                      {sub.status === "PENDING" ? "Review" : "Update"}
+                      {(sub.status || "").toUpperCase() === "PENDING" ? "Review" : "Update"}
                     </Button>
                   </TableCell>
                 </TableRow>
@@ -187,29 +187,29 @@ export function SubmissionsTable({
         </Table>
 
         {/* Pagination Footer */}
-        <div className="flex items-center justify-between border-t border-slate-800 px-4 py-3 text-xs text-slate-400">
+        <div className="flex items-center justify-between border-t border-zinc-200 dark:border-zinc-800 px-4 py-3 text-xs text-zinc-500 dark:text-zinc-400">
           <div>
-            Showing <span className="font-semibold text-white">{submissions.length}</span> of{" "}
-            <span className="font-semibold text-white">{total}</span> total entries
+            Showing <span className="font-semibold text-zinc-900 dark:text-zinc-100">{submissions.length}</span> of{" "}
+            <span className="font-semibold text-zinc-900 dark:text-zinc-100">{total}</span> total entries
           </div>
 
           <div className="flex items-center gap-2">
             <Button
               variant="outline"
               size="sm"
-              className="h-8 text-xs"
+              className="h-8 text-xs border-zinc-300 bg-white hover:bg-zinc-100 text-zinc-700 dark:border-zinc-800 dark:bg-zinc-900 dark:hover:bg-zinc-800 dark:text-zinc-200"
               onClick={() => onPageChange(page - 1)}
               disabled={page <= 1 || isLoading}
             >
               Previous
             </Button>
-            <span className="px-2 font-medium text-slate-300">
+            <span className="px-2 font-medium text-zinc-700 dark:text-zinc-300">
               Page {page} of {totalPages || 1}
             </span>
             <Button
               variant="outline"
               size="sm"
-              className="h-8 text-xs"
+              className="h-8 text-xs border-zinc-300 bg-white hover:bg-zinc-100 text-zinc-700 dark:border-zinc-800 dark:bg-zinc-900 dark:hover:bg-zinc-800 dark:text-zinc-200"
               onClick={() => onPageChange(page + 1)}
               disabled={page >= totalPages || isLoading}
             >

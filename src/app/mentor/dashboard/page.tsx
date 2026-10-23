@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useCallback, useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import {
   CheckCircle2,
   Clock,
@@ -14,9 +15,22 @@ import { SubmissionsTable } from "@/components/review/submissions-table";
 import { StatCard } from "@/components/shared/stat-card";
 import { Button } from "@/components/ui/button";
 import { apiRequest } from "@/lib/api-client";
+import { useAuth } from "@/lib/auth-context";
 import { DashboardStats, Submission } from "@/lib/types";
 
 export default function MentorDashboardPage() {
+  const router = useRouter();
+  const { user, isLoading: authLoading } = useAuth();
+
+  useEffect(() => {
+    if (!authLoading) {
+      if (!user) {
+        router.replace("/login");
+      } else if (user.role === "STUDENT") {
+        router.replace("/student/my-submissions");
+      }
+    }
+  }, [user, authLoading, router]);
   const [stats, setStats] = useState<DashboardStats>({
     totalSubmissions: 12,
     totalPending: 5,
@@ -204,10 +218,10 @@ export default function MentorDashboardPage() {
       {/* Header section */}
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <h1 className="text-3xl font-extrabold tracking-tight text-white sm:text-4xl">
+          <h1 className="text-3xl font-extrabold tracking-tight text-zinc-900 dark:text-zinc-100 sm:text-4xl">
             Mentor Review Dashboard
           </h1>
-          <p className="mt-1 text-sm text-slate-400">
+          <p className="mt-1 text-sm text-zinc-500 dark:text-zinc-400">
             Evaluate engineering projects, grade submissions, and provide actionable feedback
           </p>
         </div>
@@ -219,7 +233,7 @@ export default function MentorDashboardPage() {
             fetchStats();
             fetchSubmissions();
           }}
-          className="gap-2 self-start sm:self-auto border-slate-700 bg-slate-900/60 hover:bg-slate-800"
+          className="gap-2 self-start sm:self-auto border-zinc-300 bg-white hover:bg-zinc-100 text-zinc-700 dark:border-zinc-800 dark:bg-zinc-900 dark:hover:bg-zinc-800 dark:text-zinc-200"
         >
           <RefreshCw className="h-3.5 w-3.5" />
           Refresh Data
@@ -272,7 +286,7 @@ export default function MentorDashboardPage() {
       {/* Paginated Data Table with Server-side Filtering and Review Action (Requirements 2a, 2b, 2c) */}
       <div className="space-y-4">
         <div className="flex items-center justify-between">
-          <h2 className="text-xl font-bold text-white">Project Submissions Queue</h2>
+          <h2 className="text-xl font-bold text-zinc-900 dark:text-zinc-100">Project Submissions Queue</h2>
         </div>
 
         <SubmissionsTable

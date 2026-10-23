@@ -9,15 +9,21 @@ interface StatCardProps {
   description?: string;
   icon: LucideIcon;
   trend?: string;
-  accentColor?: "indigo" | "amber" | "emerald" | "rose" | "purple";
+  accentColor?: "indigo" | "amber" | "emerald" | "rose" | "purple" | "blue";
 }
 
 const colorStyles = {
   indigo: {
-    bg: "bg-indigo-500/10",
-    border: "border-indigo-500/20",
-    iconBg: "bg-indigo-500/20 text-indigo-400",
-    glow: "hover:border-indigo-500/40",
+    bg: "bg-[#1877f2]/10",
+    border: "border-[#1877f2]/25",
+    iconBg: "bg-[#1877f2]/15 text-[#1877f2]",
+    glow: "hover:border-[#1877f2]/50",
+  },
+  blue: {
+    bg: "bg-[#1877f2]/10",
+    border: "border-[#1877f2]/25",
+    iconBg: "bg-[#1877f2]/15 text-[#1877f2]",
+    glow: "hover:border-[#1877f2]/50",
   },
   amber: {
     bg: "bg-amber-500/10",
@@ -38,10 +44,10 @@ const colorStyles = {
     glow: "hover:border-rose-500/40",
   },
   purple: {
-    bg: "bg-purple-500/10",
-    border: "border-purple-500/20",
-    iconBg: "bg-purple-500/20 text-purple-400",
-    glow: "hover:border-purple-500/40",
+    bg: "bg-zinc-800/60",
+    border: "border-zinc-700/60",
+    iconBg: "bg-zinc-800 text-zinc-200",
+    glow: "hover:border-zinc-600",
   },
 };
 
@@ -53,19 +59,18 @@ export function StatCard({
   trend,
   accentColor = "indigo",
 }: StatCardProps) {
-  const styles = colorStyles[accentColor];
+  const styles = colorStyles[accentColor] || colorStyles.indigo;
 
   return (
     <Card
       className={cn(
-        "relative overflow-hidden transition-all duration-300 hover:shadow-lg",
-        styles.border,
-        styles.glow
+        "relative overflow-hidden transition-all duration-150 border-zinc-200 bg-white dark:border-zinc-800 dark:bg-black shadow-sm",
+        styles.border
       )}
     >
       <CardContent className="p-5">
         <div className="flex items-center justify-between">
-          <p className="text-xs font-semibold uppercase tracking-wider text-slate-400">
+          <p className="text-xs font-semibold uppercase tracking-wider text-zinc-500 dark:text-zinc-400">
             {title}
           </p>
           <div className={cn("rounded-lg p-2.5", styles.iconBg)}>
@@ -74,18 +79,18 @@ export function StatCard({
         </div>
 
         <div className="mt-4 flex items-baseline justify-between">
-          <div className="text-3xl font-extrabold tracking-tight text-white">
+          <div className="text-3xl font-extrabold tracking-tight text-zinc-900 dark:text-zinc-100">
             {value}
           </div>
           {trend && (
-            <span className="text-xs font-medium text-emerald-400">
+            <span className="text-xs font-medium text-emerald-600 dark:text-emerald-400">
               {trend}
             </span>
           )}
         </div>
 
         {description && (
-          <p className="mt-1 text-xs text-slate-400">{description}</p>
+          <p className="mt-1 text-xs text-zinc-500 dark:text-zinc-400">{description}</p>
         )}
       </CardContent>
     </Card>

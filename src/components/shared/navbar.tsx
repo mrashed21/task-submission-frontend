@@ -6,42 +6,43 @@ import { usePathname, useRouter } from "next/navigation";
 import {
   Code2,
   FileCheck2,
-  GraduationCap,
   LayoutDashboard,
   LogOut,
+  Moon,
   Send,
-  UserCheck,
+  Sun,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/lib/auth-context";
+import { useTheme } from "@/lib/theme-context";
 import { cn } from "@/lib/utils";
 
 export function Navbar() {
   const pathname = usePathname();
   const router = useRouter();
-  const { user, logout, setDemoUser } = useAuth();
+  const { user, logout } = useAuth();
+  const { theme, toggleTheme } = useTheme();
 
   const isStudent = user?.role === "STUDENT";
   const isMentor = user?.role === "MENTOR" || user?.role === "ADMIN";
 
   return (
-    <header className="sticky top-0 z-40 w-full border-b border-slate-800 bg-slate-950/80 backdrop-blur-md">
+    <header className="sticky top-0 z-40 w-full border-b border-zinc-200 bg-white text-zinc-900 dark:border-zinc-800 dark:bg-black dark:text-zinc-100 transition-colors duration-150">
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
+        {/* Brand / Logo */}
         <div className="flex items-center gap-8">
-          <Link href="/" className="flex items-center gap-2.5 group">
-            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-indigo-500 to-purple-600 shadow-md shadow-indigo-500/20 group-hover:scale-105 transition-transform">
-              <FileCheck2 className="h-5 w-5 text-white" />
+          <Link href="/" className="flex items-center gap-2.5">
+            <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#1877f2] text-white shadow-sm">
+              <FileCheck2 className="h-5 w-5" />
             </div>
             <div>
-              <span className="text-base font-bold tracking-tight text-white">
-                DevReview<span className="text-indigo-400">Hub</span>
+              <span className="text-base font-bold tracking-tight text-zinc-900 dark:text-zinc-100">
+                DevReview<span className="text-[#1877f2]">Hub</span>
               </span>
-              <p className="text-[10px] font-medium text-slate-400">
-                Project Evaluation Portal
-              </p>
             </div>
           </Link>
 
+          {/* Navigation links based on logged-in role */}
           <nav className="hidden md:flex items-center gap-1.5 text-sm font-medium">
             {isStudent && (
               <>
@@ -50,8 +51,8 @@ export function Navbar() {
                   className={cn(
                     "flex items-center gap-1.5 px-3 py-1.5 rounded-lg transition-colors",
                     pathname === "/student/submit"
-                      ? "bg-indigo-600/20 text-indigo-300 font-semibold"
-                      : "text-slate-300 hover:bg-slate-800 hover:text-white"
+                      ? "bg-[#1877f2]/10 text-[#1877f2] font-semibold dark:bg-[#1877f2]/20"
+                      : "text-zinc-600 hover:bg-zinc-100 hover:text-zinc-900 dark:text-zinc-300 dark:hover:bg-zinc-900 dark:hover:text-white"
                   )}
                 >
                   <Send className="h-4 w-4" />
@@ -62,8 +63,8 @@ export function Navbar() {
                   className={cn(
                     "flex items-center gap-1.5 px-3 py-1.5 rounded-lg transition-colors",
                     pathname === "/student/my-submissions"
-                      ? "bg-indigo-600/20 text-indigo-300 font-semibold"
-                      : "text-slate-300 hover:bg-slate-800 hover:text-white"
+                      ? "bg-[#1877f2]/10 text-[#1877f2] font-semibold dark:bg-[#1877f2]/20"
+                      : "text-zinc-600 hover:bg-zinc-100 hover:text-zinc-900 dark:text-zinc-300 dark:hover:bg-zinc-900 dark:hover:text-white"
                   )}
                 >
                   <Code2 className="h-4 w-4" />
@@ -78,8 +79,8 @@ export function Navbar() {
                 className={cn(
                   "flex items-center gap-1.5 px-3 py-1.5 rounded-lg transition-colors",
                   pathname === "/mentor/dashboard"
-                    ? "bg-indigo-600/20 text-indigo-300 font-semibold"
-                    : "text-slate-300 hover:bg-slate-800 hover:text-white"
+                    ? "bg-[#1877f2]/10 text-[#1877f2] font-semibold dark:bg-[#1877f2]/20"
+                    : "text-zinc-600 hover:bg-zinc-100 hover:text-zinc-900 dark:text-zinc-300 dark:hover:bg-zinc-900 dark:hover:text-white"
                 )}
               >
                 <LayoutDashboard className="h-4 w-4" />
@@ -89,46 +90,27 @@ export function Navbar() {
           </nav>
         </div>
 
+        {/* Right Action controls: Dark/Light toggle + User/Auth actions */}
         <div className="flex items-center gap-3">
-          {/* Quick Role Switcher for instant evaluation & demoing */}
-          <div className="hidden sm:flex items-center bg-slate-900 border border-slate-800 rounded-lg p-0.5 text-xs">
-            <button
-              onClick={() => {
-                setDemoUser("STUDENT");
-                router.push("/student/submit");
-              }}
-              className={cn(
-                "flex items-center gap-1 px-2.5 py-1 rounded-md transition-all",
-                isStudent
-                  ? "bg-indigo-600 text-white font-semibold shadow-sm"
-                  : "text-slate-400 hover:text-slate-200"
-              )}
-            >
-              <GraduationCap className="h-3.5 w-3.5" />
-              Student
-            </button>
-            <button
-              onClick={() => {
-                setDemoUser("MENTOR");
-                router.push("/mentor/dashboard");
-              }}
-              className={cn(
-                "flex items-center gap-1 px-2.5 py-1 rounded-md transition-all",
-                isMentor
-                  ? "bg-purple-600 text-white font-semibold shadow-sm"
-                  : "text-slate-400 hover:text-slate-200"
-              )}
-            >
-              <UserCheck className="h-3.5 w-3.5" />
-              Mentor
-            </button>
-          </div>
+          {/* Dark / Light Mode Toggle */}
+          <button
+            onClick={toggleTheme}
+            aria-label="Toggle dark/light theme"
+            className="flex h-9 w-9 items-center justify-center rounded-lg border border-zinc-200 bg-zinc-50 text-zinc-700 hover:bg-zinc-100 dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-300 dark:hover:bg-zinc-800 transition-colors"
+            title={theme === "dark" ? "Switch to light mode" : "Switch to dark mode"}
+          >
+            {theme === "dark" ? (
+              <Sun className="h-4 w-4 text-amber-400" />
+            ) : (
+              <Moon className="h-4 w-4 text-zinc-700" />
+            )}
+          </button>
 
           {user ? (
             <div className="flex items-center gap-3">
-              <div className="hidden lg:block text-right">
-                <p className="text-xs font-semibold text-white">{user.name}</p>
-                <p className="text-[10px] text-indigo-400 font-mono">
+              <div className="hidden sm:block text-right">
+                <p className="text-xs font-semibold text-zinc-900 dark:text-zinc-100">{user.name}</p>
+                <p className="text-[10px] text-[#1877f2] font-mono font-medium">
                   {user.role}
                 </p>
               </div>
@@ -139,21 +121,21 @@ export function Navbar() {
                   logout();
                   router.push("/login");
                 }}
-                className="gap-1.5 text-xs h-8"
+                className="gap-1.5 text-xs h-8 border-zinc-200 bg-white hover:bg-zinc-100 text-zinc-700 dark:border-zinc-800 dark:bg-zinc-900 dark:hover:bg-zinc-800 dark:text-zinc-200"
               >
-                <LogOut className="h-3.5 w-3.5 text-slate-400" />
-                <span className="hidden sm:inline">Logout</span>
+                <LogOut className="h-3.5 w-3.5 text-zinc-400" />
+                <span>Logout</span>
               </Button>
             </div>
           ) : (
             <div className="flex items-center gap-2">
               <Link href="/login">
-                <Button variant="ghost" size="sm" className="text-xs h-8">
+                <Button variant="ghost" size="sm" className="text-xs h-8 text-zinc-700 dark:text-zinc-200">
                   Sign In
                 </Button>
               </Link>
               <Link href="/signup">
-                <Button size="sm" className="text-xs h-8">
+                <Button size="sm" className="text-xs h-8 bg-[#1877f2] hover:bg-[#166fe5] text-white shadow-sm">
                   Sign Up
                 </Button>
               </Link>
