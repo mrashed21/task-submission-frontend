@@ -56,7 +56,7 @@ export function DashboardShell({
   }
 
   return (
-    <div className="flex min-h-[calc(100vh-4rem)] bg-zinc-50/50 dark:bg-black transition-colors duration-150">
+    <div className="flex min-h-[calc(100vh-4rem)] bg-[#f0f2f5] dark:bg-[#18191a] transition-colors duration-150">
       {/* Desktop Sidebar (pinned left, sticky under top navbar) */}
       <div className="hidden md:block shrink-0 sticky top-16 h-[calc(100vh-4rem)]">
         <DashboardSidebar

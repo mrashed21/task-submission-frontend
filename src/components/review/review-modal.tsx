@@ -1,7 +1,8 @@
 "use client";
 
 import React, { useState } from "react";
-import { CheckCircle2, Loader2, XCircle } from "lucide-react";
+import { CheckCircle2, ExternalLink, Globe, Loader2, XCircle } from "lucide-react";
+import { GithubIcon } from "@/components/ui/icons";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import {
@@ -12,7 +13,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { Textarea } from "@/components/ui/textarea";
+import { RichTextEditor } from "@/components/ui/rich-text-editor";
 import { apiRequest } from "@/lib/api-client";
 import { Submission, SubmissionStatus } from "@/lib/types";
 
@@ -38,11 +39,12 @@ export function ReviewModal({
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!feedback.trim()) {
+    const plainFeedback = feedback.replace(/<[^>]*>?/gm, "").trim();
+    if (!plainFeedback) {
       setError("Please write review feedback for the student.");
       return;
     }
-    if (feedback.trim().length < 5) {
+    if (plainFeedback.length < 5) {
       setError("Feedback must be at least 5 characters long.");
       return;
     }
@@ -111,13 +113,62 @@ export function ReviewModal({
   };
 
   return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
+    <Dialog
+      id="evaluate-project-modal"
+      open={open}
+      onOpenChange={onOpenChange}
+      className="w-full sm:w-[85%] md:w-[75%] lg:w-[65%] min-w-[50%] max-w-[90%]"
+      style={{ minWidth: "50%", maxWidth: "90%" }}
+    >
       <DialogHeader>
         <DialogTitle>Evaluate Project Submission</DialogTitle>
         <DialogDescription>
-          Reviewing <span className="text-zinc-100 font-medium">"{submission.project_name}"</span> submitted by {submission.user?.name || "Student"}
+          Reviewing <span className="font-semibold text-[#050505] dark:text-[#e4e6eb]">"{submission.project_name}"</span> submitted by {submission.user?.name || "Student"}
         </DialogDescription>
       </DialogHeader>
+
+      {/* Project Links & Description Preview for Mentor */}
+      <div className="rounded-xl border border-[#e4e6eb] bg-[#f0f2f5] dark:border-[#3a3b3c] dark:bg-[#18191a] p-3 space-y-2.5 max-h-44 overflow-y-auto">
+        <div className="flex flex-wrap items-center gap-1.5">
+          <a
+            href={submission.repo_url}
+            target="_blank"
+            rel="noreferrer"
+            className="inline-flex items-center gap-1 rounded-md border border-[#ced0d4] bg-white px-2 py-1 text-xs font-semibold text-[#050505] hover:bg-[#e4e6eb] dark:border-[#3a3b3c] dark:bg-[#242526] dark:text-[#e4e6eb]"
+          >
+            <GithubIcon className="h-3.5 w-3.5" />
+            Repository
+          </a>
+          <a
+            href={submission.live_link}
+            target="_blank"
+            rel="noreferrer"
+            className="inline-flex items-center gap-1 rounded-md border border-[#ced0d4] bg-white px-2 py-1 text-xs font-semibold text-[#050505] hover:bg-[#e4e6eb] dark:border-[#3a3b3c] dark:bg-[#242526] dark:text-[#e4e6eb]"
+          >
+            <Globe className="h-3.5 w-3.5" />
+            Live Demo
+          </a>
+          {submission.additional_links?.map((link, idx) => (
+            <a
+              key={idx}
+              href={link.url}
+              target="_blank"
+              rel="noreferrer"
+              className="inline-flex items-center gap-1 rounded-md border border-[#cbe4fc] bg-[#e7f3ff] px-2 py-1 text-xs font-semibold text-[#1877f2] hover:bg-[#cbe4fc] dark:border-[#1877f2]/30 dark:bg-[#1877f2]/15 dark:text-[#2d88ff]"
+            >
+              <ExternalLink className="h-3.5 w-3.5" />
+              {link.title}
+            </a>
+          ))}
+        </div>
+
+        {submission.description && (
+          <div
+            className="prose prose-xs dark:prose-invert max-w-none text-xs text-[#65676b] dark:text-[#b0b3b8] tiptap-content"
+            dangerouslySetInnerHTML={{ __html: submission.description }}
+          />
+        )}
+      </div>
 
       <form onSubmit={handleSubmit} className="space-y-4">
         {error && (
@@ -136,11 +187,11 @@ export function ReviewModal({
               onClick={() => setStatus("APPROVED")}
               className={`flex items-center justify-center gap-2 rounded-xl border p-3.5 text-sm font-semibold transition-all ${
                 status === "APPROVED"
-                  ? "border-emerald-500 bg-emerald-50 text-emerald-700 ring-2 ring-emerald-500/30 dark:bg-emerald-950/40 dark:text-emerald-300"
-                  : "border-zinc-300 bg-zinc-50 text-zinc-600 hover:bg-zinc-100 hover:text-zinc-900 dark:border-zinc-800 dark:bg-zinc-950 dark:text-zinc-400 dark:hover:border-zinc-700 dark:hover:text-zinc-200"
+                  ? "border-[#42b72a] bg-[#42b72a] text-white shadow-sm ring-2 ring-[#42b72a]/20"
+                  : "border-[#e4e6eb] bg-[#f0f2f5] text-[#65676b] hover:bg-[#e4e6eb] dark:border-[#3a3b3c] dark:bg-[#242526] dark:text-[#b0b3b8] dark:hover:bg-[#3a3b3c]"
               }`}
             >
-              <CheckCircle2 className="h-5 w-5 text-emerald-600 dark:text-emerald-400" />
+              <CheckCircle2 className="h-5 w-5" />
               Approve Project
             </button>
 
@@ -149,29 +200,32 @@ export function ReviewModal({
               onClick={() => setStatus("REJECTED")}
               className={`flex items-center justify-center gap-2 rounded-xl border p-3.5 text-sm font-semibold transition-all ${
                 status === "REJECTED"
-                  ? "border-rose-500 bg-rose-50 text-rose-700 ring-2 ring-rose-500/30 dark:bg-rose-950/40 dark:text-rose-300"
-                  : "border-zinc-300 bg-zinc-50 text-zinc-600 hover:bg-zinc-100 hover:text-zinc-900 dark:border-zinc-800 dark:bg-zinc-950 dark:text-zinc-400 dark:hover:border-zinc-700 dark:hover:text-zinc-200"
+                  ? "border-[#e41e3f] bg-[#e41e3f] text-white shadow-sm ring-2 ring-[#e41e3f]/20"
+                  : "border-[#e4e6eb] bg-[#f0f2f5] text-[#65676b] hover:bg-[#e4e6eb] dark:border-[#3a3b3c] dark:bg-[#242526] dark:text-[#b0b3b8] dark:hover:bg-[#3a3b3c]"
               }`}
             >
-              <XCircle className="h-5 w-5 text-rose-600 dark:text-rose-400" />
+              <XCircle className="h-5 w-5" />
               Reject Project
             </button>
           </div>
         </div>
 
         <div>
-          <label className="block text-xs font-semibold text-zinc-700 dark:text-zinc-300 mb-1.5 uppercase tracking-wider">
-            Mentor Feedback & Recommendations <span className="text-rose-500">*</span>
+          <label className="block text-xs font-semibold text-[#050505] dark:text-[#e4e6eb] mb-1.5 uppercase tracking-wider">
+            Mentor Feedback & Recommendations <span className="text-[#1877f2]">*</span>
           </label>
-          <Textarea
-            rows={4}
+          <RichTextEditor
+            content={feedback}
+            onChange={(html) => {
+              setFeedback(html);
+              if (error) setError(null);
+            }}
             placeholder={
               status === "APPROVED"
                 ? "Excellent implementation! Highlight architectural strengths and best practices observed..."
                 : "Point out what needs improvement, missing criteria, or bugs found so the student can resubmit..."
             }
-            value={feedback}
-            onChange={(e) => setFeedback(e.target.value)}
+            error={error || undefined}
           />
         </div>
 

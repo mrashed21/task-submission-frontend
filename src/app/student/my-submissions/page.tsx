@@ -29,7 +29,9 @@ export default function MySubmissionsPage() {
     if (!authLoading) {
       if (!user) {
         router.replace("/login");
-      } else if (user.role === "MENTOR" || user.role === "ADMIN") {
+      } else if (user.role === "ADMIN") {
+        router.replace("/admin/dashboard");
+      } else if (user.role === "MENTOR") {
         router.replace("/mentor/dashboard");
       }
     }
@@ -96,7 +98,7 @@ export default function MySubmissionsPage() {
   }, [user]);
 
   return (
-    <div className="mx-auto max-w-5xl px-4 py-10 sm:px-6 lg:px-8">
+    <div className="space-y-6">
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between mb-8">
         <div>
           <h1 className="text-3xl font-extrabold tracking-tight text-zinc-900 dark:text-zinc-100">
@@ -116,7 +118,7 @@ export default function MySubmissionsPage() {
       </div>
 
       {isLoading ? (
-        <div className="py-20 text-center text-zinc-500 dark:text-zinc-400">Loading your submissions...</div>
+        <div className="py-20 text-center text-[#65676b] dark:text-[#b0b3b8]">Loading your submissions...</div>
       ) : submissions.length === 0 ? (
         <EmptyState
           icon={Code2}
@@ -130,15 +132,15 @@ export default function MySubmissionsPage() {
           {submissions.map((sub) => (
             <Card
               key={sub.submission_id}
-              className="border border-zinc-200 bg-white dark:border-zinc-800 dark:bg-black shadow-sm overflow-hidden transition-colors"
+              className="border border-[#e4e6eb] bg-white dark:border-[#3a3b3c] dark:bg-[#242526] shadow-sm overflow-hidden transition-colors"
             >
               <CardHeader className="p-6 pb-4">
                 <div className="flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between">
                   <div>
-                    <h3 className="text-xl font-bold text-zinc-900 dark:text-zinc-100">
+                    <h3 className="text-xl font-bold text-[#050505] dark:text-[#e4e6eb]">
                       {sub.project_name}
                     </h3>
-                    <p className="text-xs text-zinc-500 dark:text-zinc-400 mt-1">
+                    <p className="text-xs text-[#65676b] dark:text-[#b0b3b8] mt-1">
                       Submitted on {formatDate(sub.created_at)}
                     </p>
                   </div>
@@ -149,16 +151,17 @@ export default function MySubmissionsPage() {
               </CardHeader>
 
               <CardContent className="p-6 pt-0 space-y-4">
-                <p className="text-sm text-zinc-700 dark:text-zinc-300 leading-relaxed">
-                  {sub.description}
-                </p>
+                <div
+                  className="prose prose-sm dark:prose-invert max-w-none text-[#050505] dark:text-[#e4e6eb] tiptap-content text-sm leading-relaxed"
+                  dangerouslySetInnerHTML={{ __html: sub.description }}
+                />
 
-                <div className="flex flex-wrap items-center gap-3 pt-2">
+                <div className="flex flex-wrap items-center gap-2 pt-2">
                   <a
                     href={sub.repo_url}
                     target="_blank"
                     rel="noreferrer"
-                    className="inline-flex items-center gap-1.5 rounded-lg border border-zinc-300 bg-zinc-50 px-3 py-1.5 text-xs font-semibold text-zinc-800 hover:bg-zinc-100 dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-200 dark:hover:bg-zinc-800"
+                    className="inline-flex items-center gap-1.5 rounded-lg border border-[#ced0d4] bg-[#f0f2f5] px-3 py-1.5 text-xs font-semibold text-[#050505] hover:bg-[#e4e6eb] dark:border-[#3a3b3c] dark:bg-[#18191a] dark:text-[#e4e6eb] dark:hover:bg-[#3a3b3c]"
                   >
                     <GithubIcon className="h-3.5 w-3.5" />
                     Source Code
@@ -167,31 +170,46 @@ export default function MySubmissionsPage() {
                     href={sub.live_link}
                     target="_blank"
                     rel="noreferrer"
-                    className="inline-flex items-center gap-1.5 rounded-lg border border-[#1877f2]/30 bg-[#1877f2]/10 px-3 py-1.5 text-xs font-semibold text-[#1877f2] dark:text-[#38bdf8] hover:bg-[#1877f2]/20"
+                    className="inline-flex items-center gap-1.5 rounded-lg border border-[#ced0d4] bg-[#f0f2f5] px-3 py-1.5 text-xs font-semibold text-[#050505] hover:bg-[#e4e6eb] dark:border-[#3a3b3c] dark:bg-[#18191a] dark:text-[#e4e6eb] dark:hover:bg-[#3a3b3c]"
                   >
                     <ExternalLink className="h-3.5 w-3.5" />
                     Live Demo
                   </a>
+                  {sub.additional_links && sub.additional_links.length > 0 && (
+                    sub.additional_links.map((link, idx) => (
+                      <a
+                        key={idx}
+                        href={link.url}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="inline-flex items-center gap-1.5 rounded-lg border border-[#cbe4fc] bg-[#e7f3ff] px-3 py-1.5 text-xs font-semibold text-[#1877f2] hover:bg-[#cbe4fc] dark:border-[#1877f2]/30 dark:bg-[#1877f2]/15 dark:text-[#2d88ff]"
+                      >
+                        <ExternalLink className="h-3.5 w-3.5" />
+                        {link.title}
+                      </a>
+                    ))
+                  )}
                 </div>
 
                 {/* Mentor Feedback Section if available */}
                 {sub.reviews && sub.reviews.length > 0 && (
-                  <div className="mt-4 rounded-xl border border-zinc-200 bg-zinc-50 p-4 dark:border-zinc-800 dark:bg-zinc-950">
+                  <div className="mt-4 rounded-xl border border-[#cbe4fc] bg-[#e7f3ff]/40 p-4 dark:border-[#1877f2]/30 dark:bg-[#1877f2]/10">
                     <div className="flex flex-wrap items-center gap-2 mb-2">
                       <div className="flex items-center gap-2">
-                        <MessageSquare className="h-4 w-4 text-[#1877f2]" />
-                        <h4 className="text-xs font-bold uppercase tracking-wider text-[#1877f2] dark:text-[#38bdf8]">
+                        <MessageSquare className="h-4 w-4 text-[#1877f2] dark:text-[#2d88ff]" />
+                        <h4 className="text-xs font-bold uppercase tracking-wider text-[#1877f2] dark:text-[#2d88ff]">
                           Mentor Evaluation & Feedback
                         </h4>
                       </div>
                       <StatusBadge status={sub.reviews[0].status} />
-                      <span className="text-[11px] text-zinc-500 dark:text-zinc-400 ml-auto">
+                      <span className="text-[11px] text-[#65676b] dark:text-[#b0b3b8] ml-auto">
                         Reviewed on {formatDate(sub.reviews[0].review_date)}
                       </span>
                     </div>
-                    <p className="text-sm text-zinc-800 dark:text-zinc-200 italic">
-                      "{sub.reviews[0].feedback}"
-                    </p>
+                    <div
+                      className="prose prose-sm dark:prose-invert max-w-none text-sm text-[#050505] dark:text-[#e4e6eb] tiptap-content pt-1"
+                      dangerouslySetInnerHTML={{ __html: sub.reviews[0].feedback }}
+                    />
                   </div>
                 )}
               </CardContent>

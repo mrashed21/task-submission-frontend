@@ -48,7 +48,7 @@ export default function SignupPage() {
     <div className="flex min-h-[calc(100vh-8rem)] items-center justify-center p-4">
       <Card className="w-full max-w-md border border-zinc-200 bg-white shadow-lg dark:border-zinc-800 dark:bg-black">
         <CardHeader className="text-center space-y-2">
-          <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-xl bg-[#1877f2] text-white shadow-sm">
+          <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-xl bg-[#1877f2] text-white shadow-md">
             <GraduationCap className="h-6 w-6" />
           </div>
           <CardTitle className="text-2xl font-bold text-zinc-900 dark:text-zinc-100">Student Registration</CardTitle>
@@ -139,7 +139,7 @@ export default function SignupPage() {
             Already have an account?{" "}
             <Link
               href="/login"
-              className="font-semibold text-[#1877f2] hover:underline"
+              className="font-semibold text-[#1877f2] hover:underline dark:text-[#2d88ff]"
             >
               Sign In
             </Link>

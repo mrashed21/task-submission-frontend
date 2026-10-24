@@ -64,36 +64,13 @@ export function DashboardSidebar({
       .slice(0, 2);
   };
 
-  const roleBadgeConfig = {
-    ADMIN: {
-      label: "Admin Portal",
-      badgeClass:
-        "bg-purple-500/10 text-purple-600 border-purple-500/30 dark:bg-purple-500/20 dark:text-purple-300",
-      icon: ShieldCheck,
-      color: "text-purple-600 dark:text-purple-400",
-    },
-    MENTOR: {
-      label: "Mentor Portal",
-      badgeClass:
-        "bg-blue-500/10 text-[#1877f2] border-blue-500/30 dark:bg-blue-500/20 dark:text-blue-300",
-      icon: Award,
-      color: "text-[#1877f2]",
-    },
-    STUDENT: {
-      label: "Student Portal",
-      badgeClass:
-        "bg-emerald-500/10 text-emerald-600 border-emerald-500/30 dark:bg-emerald-500/20 dark:text-emerald-300",
-      icon: GraduationCap,
-      color: "text-emerald-600 dark:text-emerald-400",
-    },
-  }[role] || {
-    label: "Portal",
-    badgeClass: "bg-zinc-100 text-zinc-600 border-zinc-200",
-    icon: UserCheck,
-    color: "text-zinc-600",
-  };
+  const roleLabel = {
+    ADMIN: "Admin Portal",
+    MENTOR: "Mentor Portal",
+    STUDENT: "Student Portal",
+  }[role] || "Portal";
 
-  const RoleIcon = roleBadgeConfig.icon;
+  const RoleIcon = isAdmin ? ShieldCheck : isMentor ? Award : GraduationCap;
 
   return (
     <>
@@ -107,25 +84,16 @@ export function DashboardSidebar({
         {/* Sidebar Header with Role Pill & Mobile Close */}
         <div className="flex h-16 items-center justify-between px-4 border-b border-zinc-200/80 dark:border-zinc-800/80">
           <div className="flex items-center gap-2.5 overflow-hidden">
-            <div
-              className={cn(
-                "flex h-9 w-9 shrink-0 items-center justify-center rounded-xl text-white shadow-sm transition-transform hover:scale-105",
-                isAdmin
-                  ? "bg-gradient-to-br from-purple-600 to-indigo-600"
-                  : isMentor
-                  ? "bg-[#1877f2]"
-                  : "bg-emerald-600"
-              )}
-            >
+            <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-[#1877f2] text-white shadow-sm transition-transform hover:scale-105">
               <RoleIcon className="h-5 w-5" />
             </div>
             {!isCollapsed && (
               <div className="min-w-0">
-                <span className="block truncate text-xs font-bold uppercase tracking-wider text-zinc-400 dark:text-zinc-500">
-                  {roleBadgeConfig.label}
+                <span className="block truncate text-xs font-bold uppercase tracking-wider text-[#1877f2] dark:text-[#2d88ff]">
+                  {roleLabel}
                 </span>
                 <span className="block truncate text-sm font-semibold text-zinc-900 dark:text-zinc-100">
-                  DevReview<span className="text-[#1877f2]">Hub</span>
+                  DevReviewHub
                 </span>
               </div>
             )}
@@ -159,7 +127,7 @@ export function DashboardSidebar({
 
         {/* Navigation Sections */}
         <div className="flex-1 overflow-y-auto px-3 py-4 space-y-6">
-          {/* ADMIN NAVIGATION */}
+          {/* ADMIN NAVIGATION (STRICTLY WITHIN ADMIN DASHBOARD) */}
           {isAdmin && (
             <div className="space-y-1">
               {!isCollapsed && (
@@ -172,9 +140,9 @@ export function DashboardSidebar({
                 onClick={onCloseMobile}
                 className={cn(
                   "flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all group",
-                  pathname === "/admin/dashboard" || pathname === "/admin"
-                    ? "bg-purple-600 text-white shadow-sm font-semibold"
-                    : "text-zinc-600 hover:bg-zinc-100 hover:text-zinc-900 dark:text-zinc-400 dark:hover:bg-zinc-900 dark:hover:text-zinc-100"
+                  pathname === "/admin/dashboard"
+                    ? "bg-[#e7f3ff] text-[#1877f2] dark:bg-[#1877f2]/20 dark:text-[#2d88ff] font-semibold shadow-xs"
+                    : "text-zinc-600 hover:bg-[#e4e6eb]/60 hover:text-[#050505] dark:text-zinc-400 dark:hover:bg-[#3a3b3c] dark:hover:text-[#e4e6eb]"
                 )}
                 title="Admin Dashboard"
               >
@@ -183,13 +151,13 @@ export function DashboardSidebar({
               </Link>
 
               <Link
-                href="/admin/dashboard?tab=mentors"
+                href="/admin/mentors"
                 onClick={onCloseMobile}
                 className={cn(
                   "flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all group",
-                  pathname === "/admin/dashboard" && typeof window !== "undefined" && window.location.search.includes("mentors")
-                    ? "bg-purple-50 text-purple-700 dark:bg-purple-950/40 dark:text-purple-300 font-semibold"
-                    : "text-zinc-600 hover:bg-zinc-100 hover:text-zinc-900 dark:text-zinc-400 dark:hover:bg-zinc-900 dark:hover:text-zinc-100"
+                  pathname === "/admin/mentors"
+                    ? "bg-[#e7f3ff] text-[#1877f2] dark:bg-[#1877f2]/20 dark:text-[#2d88ff] font-semibold shadow-xs"
+                    : "text-zinc-600 hover:bg-[#e4e6eb]/60 hover:text-[#050505] dark:text-zinc-400 dark:hover:bg-[#3a3b3c] dark:hover:text-[#e4e6eb]"
                 )}
                 title="Manage Mentors"
               >
@@ -198,18 +166,33 @@ export function DashboardSidebar({
               </Link>
 
               <Link
-                href="/mentor/dashboard"
+                href="/admin/students"
                 onClick={onCloseMobile}
                 className={cn(
                   "flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all group",
-                  pathname === "/mentor/dashboard"
-                    ? "bg-purple-600 text-white shadow-sm font-semibold"
-                    : "text-zinc-600 hover:bg-zinc-100 hover:text-zinc-900 dark:text-zinc-400 dark:hover:bg-zinc-900 dark:hover:text-zinc-100"
+                  pathname === "/admin/students"
+                    ? "bg-[#e7f3ff] text-[#1877f2] dark:bg-[#1877f2]/20 dark:text-[#2d88ff] font-semibold shadow-xs"
+                    : "text-zinc-600 hover:bg-[#e4e6eb]/60 hover:text-[#050505] dark:text-zinc-400 dark:hover:bg-[#3a3b3c] dark:hover:text-[#e4e6eb]"
                 )}
-                title="All Submissions"
+                title="Student Directory"
+              >
+                <GraduationCap className="h-4 w-4 shrink-0" />
+                {!isCollapsed && <span>Student Directory</span>}
+              </Link>
+
+              <Link
+                href="/admin/submissions"
+                onClick={onCloseMobile}
+                className={cn(
+                  "flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all group",
+                  pathname === "/admin/submissions"
+                    ? "bg-[#e7f3ff] text-[#1877f2] dark:bg-[#1877f2]/20 dark:text-[#2d88ff] font-semibold shadow-xs"
+                    : "text-zinc-600 hover:bg-[#e4e6eb]/60 hover:text-[#050505] dark:text-zinc-400 dark:hover:bg-[#3a3b3c] dark:hover:text-[#e4e6eb]"
+                )}
+                title="Submissions Oversight"
               >
                 <FileCheck2 className="h-4 w-4 shrink-0" />
-                {!isCollapsed && <span>Submissions & Reviews</span>}
+                {!isCollapsed && <span>Submissions Stream</span>}
               </Link>
 
               {/* Quick action: Create Mentor */}
@@ -217,7 +200,7 @@ export function DashboardSidebar({
                 <Button
                   onClick={() => setCreateMentorOpen(true)}
                   className={cn(
-                    "w-full gap-2 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white text-xs font-semibold shadow-sm transition-all",
+                    "w-full gap-2 bg-[#1877f2] hover:bg-[#166fe5] text-white text-xs font-semibold shadow-sm transition-all",
                     isCollapsed ? "px-0 justify-center h-10" : "h-9"
                   )}
                   title="Create Mentor"
@@ -229,7 +212,7 @@ export function DashboardSidebar({
             </div>
           )}
 
-          {/* MENTOR NAVIGATION */}
+          {/* MENTOR NAVIGATION (STRICTLY WITHIN MENTOR DASHBOARD) */}
           {isMentor && (
             <div className="space-y-1">
               {!isCollapsed && (
@@ -243,19 +226,24 @@ export function DashboardSidebar({
                 className={cn(
                   "flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all group",
                   pathname === "/mentor/dashboard"
-                    ? "bg-[#1877f2] text-white shadow-sm font-semibold"
-                    : "text-zinc-600 hover:bg-zinc-100 hover:text-zinc-900 dark:text-zinc-400 dark:hover:bg-zinc-900 dark:hover:text-zinc-100"
+                    ? "bg-[#e7f3ff] text-[#1877f2] dark:bg-[#1877f2]/20 dark:text-[#2d88ff] font-semibold shadow-xs"
+                    : "text-zinc-600 hover:bg-[#e4e6eb]/60 hover:text-[#050505] dark:text-zinc-400 dark:hover:bg-[#3a3b3c] dark:hover:text-[#e4e6eb]"
                 )}
-                title="Review Dashboard"
+                title="All Submissions"
               >
                 <LayoutDashboard className="h-4 w-4 shrink-0" />
                 {!isCollapsed && <span>All Submissions</span>}
               </Link>
 
               <Link
-                href="/mentor/dashboard?status=PENDING"
+                href="/mentor/pending"
                 onClick={onCloseMobile}
-                className="flex items-center gap-3 px-3 py-2 rounded-xl text-sm font-medium text-amber-600 hover:bg-amber-500/10 dark:text-amber-400 transition-colors"
+                className={cn(
+                  "flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all group",
+                  pathname === "/mentor/pending"
+                    ? "bg-[#e7f3ff] text-[#1877f2] dark:bg-[#1877f2]/20 dark:text-[#2d88ff] font-semibold shadow-xs"
+                    : "text-zinc-600 hover:bg-[#e4e6eb]/60 hover:text-[#050505] dark:text-zinc-400 dark:hover:bg-[#3a3b3c] dark:hover:text-[#e4e6eb]"
+                )}
                 title="Pending Reviews"
               >
                 <Clock className="h-4 w-4 shrink-0" />
@@ -263,9 +251,14 @@ export function DashboardSidebar({
               </Link>
 
               <Link
-                href="/mentor/dashboard?status=APPROVED"
+                href="/mentor/approved"
                 onClick={onCloseMobile}
-                className="flex items-center gap-3 px-3 py-2 rounded-xl text-sm font-medium text-emerald-600 hover:bg-emerald-500/10 dark:text-emerald-400 transition-colors"
+                className={cn(
+                  "flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all group",
+                  pathname === "/mentor/approved"
+                    ? "bg-[#e7f3ff] text-[#1877f2] dark:bg-[#1877f2]/20 dark:text-[#2d88ff] font-semibold shadow-xs"
+                    : "text-zinc-600 hover:bg-[#e4e6eb]/60 hover:text-[#050505] dark:text-zinc-400 dark:hover:bg-[#3a3b3c] dark:hover:text-[#e4e6eb]"
+                )}
                 title="Approved Submissions"
               >
                 <CheckCircle2 className="h-4 w-4 shrink-0" />
@@ -273,10 +266,15 @@ export function DashboardSidebar({
               </Link>
 
               <Link
-                href="/mentor/dashboard?status=REJECTED"
+                href="/mentor/rejected"
                 onClick={onCloseMobile}
-                className="flex items-center gap-3 px-3 py-2 rounded-xl text-sm font-medium text-rose-600 hover:bg-rose-500/10 dark:text-rose-400 transition-colors"
-                title="Rejected Submissions"
+                className={cn(
+                  "flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all group",
+                  pathname === "/mentor/rejected"
+                    ? "bg-[#e7f3ff] text-[#1877f2] dark:bg-[#1877f2]/20 dark:text-[#2d88ff] font-semibold shadow-xs"
+                    : "text-zinc-600 hover:bg-[#e4e6eb]/60 hover:text-[#050505] dark:text-zinc-400 dark:hover:bg-[#3a3b3c] dark:hover:text-[#e4e6eb]"
+                )}
+                title="Needs Revisions"
               >
                 <XCircle className="h-4 w-4 shrink-0" />
                 {!isCollapsed && <span>Needs Revisions</span>}
@@ -284,7 +282,7 @@ export function DashboardSidebar({
             </div>
           )}
 
-          {/* STUDENT NAVIGATION */}
+          {/* STUDENT NAVIGATION (STRICTLY WITHIN STUDENT DASHBOARD) */}
           {isStudent && (
             <div className="space-y-1">
               {!isCollapsed && (
@@ -298,8 +296,8 @@ export function DashboardSidebar({
                 className={cn(
                   "flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all group",
                   pathname === "/student/my-submissions"
-                    ? "bg-[#1877f2] text-white shadow-sm font-semibold"
-                    : "text-zinc-600 hover:bg-zinc-100 hover:text-zinc-900 dark:text-zinc-400 dark:hover:bg-zinc-900 dark:hover:text-zinc-100"
+                    ? "bg-[#e7f3ff] text-[#1877f2] dark:bg-[#1877f2]/20 dark:text-[#2d88ff] font-semibold shadow-xs"
+                    : "text-zinc-600 hover:bg-[#e4e6eb]/60 hover:text-[#050505] dark:text-zinc-400 dark:hover:bg-[#3a3b3c] dark:hover:text-[#e4e6eb]"
                 )}
                 title="My Submissions"
               >
@@ -313,8 +311,8 @@ export function DashboardSidebar({
                 className={cn(
                   "flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all group",
                   pathname === "/student/submit"
-                    ? "bg-[#1877f2] text-white shadow-sm font-semibold"
-                    : "text-zinc-600 hover:bg-zinc-100 hover:text-zinc-900 dark:text-zinc-400 dark:hover:bg-zinc-900 dark:hover:text-zinc-100"
+                    ? "bg-[#e7f3ff] text-[#1877f2] dark:bg-[#1877f2]/20 dark:text-[#2d88ff] font-semibold shadow-xs"
+                    : "text-zinc-600 hover:bg-[#e4e6eb]/60 hover:text-[#050505] dark:text-zinc-400 dark:hover:bg-[#3a3b3c] dark:hover:text-[#e4e6eb]"
                 )}
                 title="Submit Project"
               >
@@ -324,12 +322,12 @@ export function DashboardSidebar({
 
               {/* Student tip card */}
               {!isCollapsed && (
-                <div className="mt-4 rounded-xl border border-zinc-200 bg-zinc-50/70 p-3 text-xs dark:border-zinc-800 dark:bg-zinc-900/40">
-                  <div className="flex items-center gap-1.5 font-semibold text-zinc-900 dark:text-zinc-200">
-                    <Sparkles className="h-3.5 w-3.5 text-amber-500" />
+                <div className="mt-4 rounded-xl border border-[#cbe4fc] bg-[#e7f3ff]/60 p-3 text-xs dark:border-[#1877f2]/30 dark:bg-[#1877f2]/10">
+                  <div className="flex items-center gap-1.5 font-semibold text-[#1877f2] dark:text-[#2d88ff]">
+                    <Sparkles className="h-3.5 w-3.5" />
                     <span>Submission Tip</span>
                   </div>
-                  <p className="mt-1 text-[11px] text-zinc-500 dark:text-zinc-400 leading-relaxed">
+                  <p className="mt-1 text-[11px] text-zinc-600 dark:text-zinc-300 leading-relaxed">
                     Always test your live link and ensure repository visibility is Public before submitting.
                   </p>
                 </div>
@@ -343,16 +341,11 @@ export function DashboardSidebar({
           {user ? (
             <div
               className={cn(
-                "flex items-center gap-3 rounded-xl p-2 bg-zinc-50 dark:bg-zinc-900/60 border border-zinc-200/80 dark:border-zinc-800/80",
+                "flex items-center gap-3 rounded-xl p-2 bg-zinc-50 dark:bg-zinc-900/60 border border-zinc-200 dark:border-zinc-800",
                 isCollapsed && "justify-center p-1"
               )}
             >
-              <div
-                className={cn(
-                  "flex h-8 w-8 shrink-0 items-center justify-center rounded-lg font-bold text-xs text-white",
-                  isAdmin ? "bg-purple-600" : isMentor ? "bg-[#1877f2]" : "bg-emerald-600"
-                )}
-              >
+              <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg font-bold text-xs bg-[#1877f2] text-white">
                 {getInitials(user.name || "User")}
               </div>
               {!isCollapsed && (
@@ -361,7 +354,7 @@ export function DashboardSidebar({
                     {user.name}
                   </p>
                   <p className="truncate text-[10px] text-zinc-500 dark:text-zinc-400 font-mono">
-                    {user.email}
+                    {user.role}
                   </p>
                 </div>
               )}
@@ -377,7 +370,7 @@ export function DashboardSidebar({
               title={theme === "dark" ? "Light Mode" : "Dark Mode"}
             >
               {theme === "dark" ? (
-                <Sun className="h-4 w-4 text-amber-400" />
+                <Sun className="h-4 w-4 text-zinc-300" />
               ) : (
                 <Moon className="h-4 w-4 text-zinc-700" />
               )}
@@ -391,7 +384,7 @@ export function DashboardSidebar({
                 router.push("/login");
               }}
               className={cn(
-                "text-xs text-zinc-600 hover:text-rose-600 hover:bg-rose-50 dark:text-zinc-400 dark:hover:text-rose-400 dark:hover:bg-rose-950/20 h-8",
+                "text-xs text-zinc-600 hover:text-zinc-900 hover:bg-zinc-100 dark:text-zinc-400 dark:hover:text-zinc-100 dark:hover:bg-zinc-900 h-8",
                 isCollapsed ? "w-8 p-0" : "flex-1 justify-start gap-2"
               )}
               title="Sign Out"
@@ -409,7 +402,6 @@ export function DashboardSidebar({
           open={createMentorOpen}
           onOpenChange={setCreateMentorOpen}
           onMentorCreated={() => {
-            // Re-render or trigger custom event
             if (typeof window !== "undefined") {
               window.dispatchEvent(new CustomEvent("mentor-created"));
             }

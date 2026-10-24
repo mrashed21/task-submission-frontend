@@ -7,13 +7,13 @@ const alertVariants = cva(
   {
     variants: {
       variant: {
-        default: "border-zinc-800 bg-zinc-900/80 text-zinc-200",
+        default: "border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-900/60 text-zinc-900 dark:text-zinc-100",
         destructive:
-          "border-rose-500/30 bg-rose-950/30 text-rose-200 [&>svg]:text-rose-400",
+          "border-zinc-300 dark:border-zinc-700 bg-zinc-100 dark:bg-zinc-900 text-zinc-900 dark:text-zinc-100 [&>svg]:text-zinc-900 dark:[&>svg]:text-zinc-100",
         warning:
-          "border-amber-500/30 bg-amber-950/30 text-amber-200 [&>svg]:text-amber-400",
+          "border-zinc-300 dark:border-zinc-700 bg-zinc-100 dark:bg-zinc-900 text-zinc-900 dark:text-zinc-100 [&>svg]:text-zinc-900 dark:[&>svg]:text-zinc-100",
         success:
-          "border-emerald-500/30 bg-emerald-950/30 text-emerald-200 [&>svg]:text-emerald-400",
+          "border-zinc-300 dark:border-zinc-700 bg-zinc-100 dark:bg-zinc-900 text-zinc-900 dark:text-zinc-100 [&>svg]:text-zinc-900 dark:[&>svg]:text-zinc-100",
       },
     },
     defaultVariants: {

@@ -6,5 +6,5 @@ export default function MentorLayout({
 }: {
   children: React.ReactNode;
 }) {
-  return <DashboardShell allowedRoles={["MENTOR", "ADMIN"]}>{children}</DashboardShell>;
+  return <DashboardShell allowedRoles={["MENTOR"]}>{children}</DashboardShell>;
 }

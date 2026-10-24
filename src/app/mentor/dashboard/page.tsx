@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useCallback, useEffect, useState } from "react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import {
   CheckCircle2,
@@ -22,12 +23,31 @@ export default function MentorDashboardPage() {
   const router = useRouter();
   const { user, isLoading: authLoading } = useAuth();
 
+  // Redirect ?status=... query parameters to separate dedicated pages
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const params = new URLSearchParams(window.location.search);
+      const st = params.get("status");
+      if (st === "PENDING") {
+        router.replace("/mentor/pending");
+      } else if (st === "APPROVED") {
+        router.replace("/mentor/approved");
+      } else if (st === "REJECTED") {
+        router.replace("/mentor/rejected");
+      }
+    }
+  }, [router]);
+
   useEffect(() => {
     if (!authLoading) {
       if (!user) {
         router.replace("/login");
-      } else if (user.role === "STUDENT") {
-        router.replace("/student/my-submissions");
+      } else if (user.role !== "MENTOR") {
+        if (user.role === "ADMIN") {
+          router.replace("/admin/dashboard");
+        } else {
+          router.replace("/student/my-submissions");
+        }
       }
     }
   }, [user, authLoading, router]);
@@ -204,8 +224,16 @@ export default function MentorDashboardPage() {
   const handleStatusFilterChange = (
     newStatus: "ALL" | "PENDING" | "APPROVED" | "REJECTED"
   ) => {
-    setStatusFilter(newStatus);
-    setCurrentPage(1);
+    if (newStatus === "PENDING") {
+      router.push("/mentor/pending");
+    } else if (newStatus === "APPROVED") {
+      router.push("/mentor/approved");
+    } else if (newStatus === "REJECTED") {
+      router.push("/mentor/rejected");
+    } else {
+      setStatusFilter("ALL");
+      setCurrentPage(1);
+    }
   };
 
   const handleSearchChange = (newSearch: string) => {
@@ -214,7 +242,7 @@ export default function MentorDashboardPage() {
   };
 
   return (
-    <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8 space-y-8">
+    <div className="space-y-8">
       {/* Header section */}
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
@@ -233,11 +261,54 @@ export default function MentorDashboardPage() {
             fetchStats();
             fetchSubmissions();
           }}
-          className="gap-2 self-start sm:self-auto border-zinc-300 bg-white hover:bg-zinc-100 text-zinc-700 dark:border-zinc-800 dark:bg-zinc-900 dark:hover:bg-zinc-800 dark:text-zinc-200"
+          className="gap-2 self-start sm:self-auto border-[#ced0d4] bg-white hover:bg-[#e4e6eb]/60 text-[#050505] dark:border-[#3a3b3c] dark:bg-[#242526] dark:hover:bg-[#3a3b3c] dark:text-[#e4e6eb]"
         >
           <RefreshCw className="h-3.5 w-3.5" />
           Refresh Data
         </Button>
+      </div>
+
+      {/* Navigation Pills across mentor pages */}
+      <div className="flex flex-wrap items-center gap-2 border-b border-[#e4e6eb] dark:border-[#3a3b3c] pb-3">
+        <Link href="/mentor/dashboard">
+          <Button
+            size="sm"
+            className="text-xs h-8 bg-[#1877f2] hover:bg-[#166fe5] text-white shadow-xs font-semibold"
+          >
+            <FileCheck2 className="h-3.5 w-3.5 mr-1.5" />
+            All Submissions ({stats.totalSubmissions})
+          </Button>
+        </Link>
+        <Link href="/mentor/pending">
+          <Button
+            variant="ghost"
+            size="sm"
+            className="text-xs h-8 text-[#65676b] hover:text-[#050505] dark:text-[#b0b3b8] dark:hover:text-[#e4e6eb]"
+          >
+            <Clock className="h-3.5 w-3.5 mr-1.5" />
+            Pending Reviews ({stats.totalPending})
+          </Button>
+        </Link>
+        <Link href="/mentor/approved">
+          <Button
+            variant="ghost"
+            size="sm"
+            className="text-xs h-8 text-[#65676b] hover:text-[#050505] dark:text-[#b0b3b8] dark:hover:text-[#e4e6eb]"
+          >
+            <CheckCircle2 className="h-3.5 w-3.5 mr-1.5" />
+            Approved Projects ({stats.totalApproved})
+          </Button>
+        </Link>
+        <Link href="/mentor/rejected">
+          <Button
+            variant="ghost"
+            size="sm"
+            className="text-xs h-8 text-[#65676b] hover:text-[#050505] dark:text-[#b0b3b8] dark:hover:text-[#e4e6eb]"
+          >
+            <XCircle className="h-3.5 w-3.5 mr-1.5" />
+            Needs Revisions ({stats.totalRejected})
+          </Button>
+        </Link>
       </div>
 
       {/* Aggregated Statistics Cards (Requirement 2d) */}

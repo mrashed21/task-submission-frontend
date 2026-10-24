@@ -50,12 +50,12 @@ export default function LoginPage() {
     <div className="flex min-h-[calc(100vh-8rem)] items-center justify-center p-4">
       <Card className="w-full max-w-md border border-zinc-200 bg-white shadow-lg dark:border-zinc-800 dark:bg-black">
         <CardHeader className="text-center space-y-2">
-          <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-xl bg-[#1877f2] text-white shadow-sm">
+          <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-xl bg-[#1877f2] text-white shadow-md">
             <FileCheck2 className="h-6 w-6" />
           </div>
           <CardTitle className="text-2xl font-bold text-zinc-900 dark:text-zinc-100">Sign In</CardTitle>
           <CardDescription className="text-zinc-500 dark:text-zinc-400">
-            Log in with your mentor or student email address
+            Log in with your administrator, mentor, or student credentials
           </CardDescription>
         </CardHeader>
 
@@ -78,7 +78,7 @@ export default function LoginPage() {
                 </div>
                 <Input
                   type="email"
-                  placeholder="mentor@example.com or student@example.com"
+                  placeholder="admin@example.com or mentor@example.com"
                   className="pl-9"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
@@ -107,7 +107,7 @@ export default function LoginPage() {
             <Button
               type="submit"
               disabled={isLoading}
-              className="w-full h-10 font-semibold bg-[#1877f2] hover:bg-[#166fe5] text-white shadow-sm"
+              className="w-full h-10 font-semibold bg-zinc-900 hover:bg-zinc-800 text-zinc-50 dark:bg-zinc-100 dark:hover:bg-zinc-200 dark:text-zinc-900 shadow-sm"
             >
               {isLoading ? (
                 <>
@@ -120,18 +120,51 @@ export default function LoginPage() {
             </Button>
           </form>
 
-          {/* Clean minimal hint */}
+          {/* Quick autofill demo accounts */}
           <div className="mt-5 rounded-lg border border-zinc-200 bg-zinc-50 p-3 text-[11px] text-zinc-600 dark:border-zinc-800 dark:bg-zinc-950 dark:text-zinc-400">
-            <p className="font-semibold text-zinc-800 dark:text-zinc-200 mb-1">Demo Accounts:</p>
-            <p>&bull; Mentor: <code className="font-mono text-zinc-900 dark:text-zinc-100">mentor@example.com</code> / <code className="font-mono">mentor1234</code></p>
-            <p>&bull; Student: <code className="font-mono text-zinc-900 dark:text-zinc-100">student@example.com</code> / <code className="font-mono">student1234</code></p>
+            <p className="font-semibold text-zinc-800 dark:text-zinc-200 mb-2">One-Click Demo Fill:</p>
+            <div className="grid grid-cols-3 gap-2">
+              <button
+                type="button"
+                id="btn-fill-admin"
+                onClick={() => {
+                  setEmail("admin@example.com");
+                  setPassword("admin1234");
+                }}
+                className="rounded border border-[#cbe4fc] dark:border-[#1877f2]/30 bg-[#e7f3ff] dark:bg-[#1877f2]/20 px-2 py-1.5 text-center text-xs font-semibold hover:bg-[#d8ecff] transition-colors text-[#1877f2] dark:text-[#2d88ff]"
+              >
+                Admin
+              </button>
+              <button
+                type="button"
+                id="btn-fill-mentor"
+                onClick={() => {
+                  setEmail("mentor@example.com");
+                  setPassword("mentor1234");
+                }}
+                className="rounded border border-[#cbe4fc] dark:border-[#1877f2]/30 bg-[#e7f3ff] dark:bg-[#1877f2]/20 px-2 py-1.5 text-center text-xs font-semibold hover:bg-[#d8ecff] transition-colors text-[#1877f2] dark:text-[#2d88ff]"
+              >
+                Mentor
+              </button>
+              <button
+                type="button"
+                id="btn-fill-student"
+                onClick={() => {
+                  setEmail("student@example.com");
+                  setPassword("student1234");
+                }}
+                className="rounded border border-[#cbe4fc] dark:border-[#1877f2]/30 bg-[#e7f3ff] dark:bg-[#1877f2]/20 px-2 py-1.5 text-center text-xs font-semibold hover:bg-[#d8ecff] transition-colors text-[#1877f2] dark:text-[#2d88ff]"
+              >
+                Student
+              </button>
+            </div>
           </div>
 
           <p className="mt-5 text-center text-xs text-zinc-500 dark:text-zinc-400">
             Don't have an account?{" "}
             <Link
               href="/signup"
-              className="font-semibold text-[#1877f2] hover:underline"
+              className="font-semibold text-[#1877f2] hover:underline dark:text-[#2d88ff]"
             >
               Sign up as Student
             </Link>

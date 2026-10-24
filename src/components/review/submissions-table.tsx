@@ -77,7 +77,7 @@ export function SubmissionsTable({
               onClick={() => onStatusFilterChange(tab.id)}
               className={`rounded-lg px-3 py-1.5 text-xs font-semibold transition-all ${
                 statusFilter === tab.id
-                  ? "bg-[#1877f2] text-white shadow-sm"
+                  ? "bg-[#1877f2] text-white shadow-xs"
                   : "text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-200"
               }`}
             >
@@ -130,7 +130,7 @@ export function SubmissionsTable({
                   <TableCell>
                     <div className="font-semibold text-zinc-900 dark:text-zinc-100">{sub.project_name}</div>
                     <div className="mt-0.5 line-clamp-1 max-w-[240px] text-xs text-zinc-500 dark:text-zinc-400">
-                      {sub.description}
+                      {sub.description ? sub.description.replace(/<[^>]*>?/gm, "") : ""}
                     </div>
                   </TableCell>
                   <TableCell>
@@ -140,12 +140,12 @@ export function SubmissionsTable({
                     <div className="text-[11px] text-zinc-500 dark:text-zinc-400">{sub.user?.email}</div>
                   </TableCell>
                   <TableCell>
-                    <div className="flex items-center gap-2">
+                    <div className="flex flex-wrap items-center gap-1.5">
                       <a
                         href={sub.repo_url}
                         target="_blank"
                         rel="noreferrer"
-                        className="inline-flex items-center gap-1 rounded-md border border-zinc-200 bg-zinc-50 px-2 py-1 text-[11px] font-medium text-zinc-700 hover:bg-zinc-100 dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-300 dark:hover:bg-zinc-800"
+                        className="inline-flex items-center gap-1 rounded-md border border-[#ced0d4] bg-[#f0f2f5] px-2 py-0.5 text-[11px] font-medium text-[#050505] hover:bg-[#e4e6eb] dark:border-[#3a3b3c] dark:bg-[#18191a] dark:text-[#e4e6eb]"
                         title={sub.repo_url}
                       >
                         <GithubIcon className="h-3 w-3" />
@@ -155,12 +155,20 @@ export function SubmissionsTable({
                         href={sub.live_link}
                         target="_blank"
                         rel="noreferrer"
-                        className="inline-flex items-center gap-1 rounded-md border border-[#1877f2]/20 bg-[#1877f2]/10 px-2 py-1 text-[11px] font-medium text-[#1877f2] dark:text-[#38bdf8] hover:bg-[#1877f2]/20"
+                        className="inline-flex items-center gap-1 rounded-md border border-[#ced0d4] bg-[#f0f2f5] px-2 py-0.5 text-[11px] font-medium text-[#050505] hover:bg-[#e4e6eb] dark:border-[#3a3b3c] dark:bg-[#18191a] dark:text-[#e4e6eb]"
                         title={sub.live_link}
                       >
                         <ExternalLink className="h-3 w-3" />
                         Live
                       </a>
+                      {sub.additional_links && sub.additional_links.length > 0 && (
+                        <span
+                          className="inline-flex items-center rounded-md border border-[#cbe4fc] bg-[#e7f3ff] px-1.5 py-0.5 text-[10px] font-semibold text-[#1877f2] dark:border-[#1877f2]/30 dark:bg-[#1877f2]/15 dark:text-[#2d88ff]"
+                          title={`${sub.additional_links.length} additional links`}
+                        >
+                          +{sub.additional_links.length}
+                        </span>
+                      )}
                     </div>
                   </TableCell>
                   <TableCell className="text-xs text-zinc-500 dark:text-zinc-400">
@@ -171,6 +179,8 @@ export function SubmissionsTable({
                   </TableCell>
                   <TableCell className="text-right">
                     <Button
+                      id={`btn-review-${sub.submission_id}`}
+                      data-testid="review-button"
                       size="sm"
                       variant={(sub.status || "").toUpperCase() === "PENDING" ? "default" : "secondary"}
                       className="h-8 text-xs gap-1.5"

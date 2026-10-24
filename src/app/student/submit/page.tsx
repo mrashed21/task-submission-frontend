@@ -13,14 +13,16 @@ export default function StudentSubmitPage() {
     if (!isLoading) {
       if (!user) {
         router.replace("/login");
-      } else if (user.role === "MENTOR" || user.role === "ADMIN") {
+      } else if (user.role === "ADMIN") {
+        router.replace("/admin/dashboard");
+      } else if (user.role === "MENTOR") {
         router.replace("/mentor/dashboard");
       }
     }
   }, [user, isLoading, router]);
 
   return (
-    <div className="mx-auto max-w-5xl px-4 py-10 sm:px-6 lg:px-8">
+    <div className="mx-auto max-w-4xl py-2 space-y-8">
       <div className="mb-8 text-center sm:text-left">
         <h1 className="text-3xl font-extrabold tracking-tight text-zinc-900 dark:text-zinc-100 sm:text-4xl">
           Project Submission Portal

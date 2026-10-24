@@ -4,12 +4,10 @@ import React from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import {
-  Code2,
   FileCheck2,
   LayoutDashboard,
   LogOut,
   Moon,
-  Send,
   ShieldCheck,
   Sun,
 } from "lucide-react";
@@ -29,8 +27,8 @@ export function Navbar() {
   const isStudent = user?.role === "STUDENT";
 
   return (
-    <header className="sticky top-0 z-40 w-full border-b border-zinc-200 bg-white text-zinc-900 dark:border-zinc-800 dark:bg-black dark:text-zinc-100 transition-colors duration-150">
-      <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
+    <header className="sticky top-0 z-40 w-full border-b border-zinc-200 bg-white text-zinc-900 dark:border-zinc-800 dark:bg-zinc-950 dark:text-zinc-100 transition-colors duration-150">
+      <div className="flex h-16 w-full items-center justify-between px-4 sm:px-6 lg:px-8">
         {/* Brand / Logo */}
         <div className="flex items-center gap-8">
           <Link href="/" className="flex items-center gap-2.5">
@@ -39,40 +37,26 @@ export function Navbar() {
             </div>
             <div>
               <span className="text-base font-bold tracking-tight text-zinc-900 dark:text-zinc-100">
-                DevReview<span className="text-[#1877f2]">Hub</span>
+                DevReviewHub
               </span>
             </div>
           </Link>
 
-          {/* Navigation links based on logged-in role */}
+          {/* Navigation links based strictly on logged-in role - NO cross-dashboard links */}
           <nav className="hidden md:flex items-center gap-1.5 text-sm font-medium">
             {isAdmin && (
-              <>
-                <Link
-                  href="/admin/dashboard"
-                  className={cn(
-                    "flex items-center gap-1.5 px-3 py-1.5 rounded-lg transition-colors",
-                    pathname.startsWith("/admin")
-                      ? "bg-purple-600/10 text-purple-600 font-semibold dark:bg-purple-600/20 dark:text-purple-400"
-                      : "text-zinc-600 hover:bg-zinc-100 hover:text-zinc-900 dark:text-zinc-300 dark:hover:bg-zinc-900 dark:hover:text-white"
-                  )}
-                >
-                  <ShieldCheck className="h-4 w-4" />
-                  Admin Dashboard
-                </Link>
-                <Link
-                  href="/mentor/dashboard"
-                  className={cn(
-                    "flex items-center gap-1.5 px-3 py-1.5 rounded-lg transition-colors",
-                    pathname === "/mentor/dashboard"
-                      ? "bg-[#1877f2]/10 text-[#1877f2] font-semibold dark:bg-[#1877f2]/20"
-                      : "text-zinc-600 hover:bg-zinc-100 hover:text-zinc-900 dark:text-zinc-300 dark:hover:bg-zinc-900 dark:hover:text-white"
-                  )}
-                >
-                  <LayoutDashboard className="h-4 w-4" />
-                  Review Dashboard
-                </Link>
-              </>
+              <Link
+                href="/admin/dashboard"
+                className={cn(
+                  "flex items-center gap-1.5 px-3 py-1.5 rounded-lg transition-colors",
+                  pathname.startsWith("/admin")
+                    ? "bg-[#e7f3ff] text-[#1877f2] dark:bg-[#1877f2]/20 dark:text-[#2d88ff] font-semibold shadow-xs"
+                    : "text-zinc-600 hover:bg-[#e4e6eb]/60 hover:text-[#050505] dark:text-zinc-300 dark:hover:bg-[#3a3b3c] dark:hover:text-white"
+                )}
+              >
+                <ShieldCheck className="h-4 w-4" />
+                Admin Dashboard
+              </Link>
             )}
 
             {isMentor && (
@@ -80,43 +64,14 @@ export function Navbar() {
                 href="/mentor/dashboard"
                 className={cn(
                   "flex items-center gap-1.5 px-3 py-1.5 rounded-lg transition-colors",
-                  pathname === "/mentor/dashboard"
-                    ? "bg-[#1877f2]/10 text-[#1877f2] font-semibold dark:bg-[#1877f2]/20"
-                    : "text-zinc-600 hover:bg-zinc-100 hover:text-zinc-900 dark:text-zinc-300 dark:hover:bg-zinc-900 dark:hover:text-white"
+                  pathname.startsWith("/mentor")
+                    ? "bg-[#e7f3ff] text-[#1877f2] dark:bg-[#1877f2]/20 dark:text-[#2d88ff] font-semibold shadow-xs"
+                    : "text-zinc-600 hover:bg-[#e4e6eb]/60 hover:text-[#050505] dark:text-zinc-300 dark:hover:bg-[#3a3b3c] dark:hover:text-white"
                 )}
               >
                 <LayoutDashboard className="h-4 w-4" />
                 Review Dashboard
               </Link>
-            )}
-
-            {isStudent && (
-              <>
-                <Link
-                  href="/student/submit"
-                  className={cn(
-                    "flex items-center gap-1.5 px-3 py-1.5 rounded-lg transition-colors",
-                    pathname === "/student/submit"
-                      ? "bg-[#1877f2]/10 text-[#1877f2] font-semibold dark:bg-[#1877f2]/20"
-                      : "text-zinc-600 hover:bg-zinc-100 hover:text-zinc-900 dark:text-zinc-300 dark:hover:bg-zinc-900 dark:hover:text-white"
-                  )}
-                >
-                  <Send className="h-4 w-4" />
-                  Submit Project
-                </Link>
-                <Link
-                  href="/student/my-submissions"
-                  className={cn(
-                    "flex items-center gap-1.5 px-3 py-1.5 rounded-lg transition-colors",
-                    pathname === "/student/my-submissions"
-                      ? "bg-[#1877f2]/10 text-[#1877f2] font-semibold dark:bg-[#1877f2]/20"
-                      : "text-zinc-600 hover:bg-zinc-100 hover:text-zinc-900 dark:text-zinc-300 dark:hover:bg-zinc-900 dark:hover:text-white"
-                  )}
-                >
-                  <Code2 className="h-4 w-4" />
-                  My Submissions
-                </Link>
-              </>
             )}
           </nav>
         </div>
@@ -131,7 +86,7 @@ export function Navbar() {
             title={theme === "dark" ? "Switch to light mode" : "Switch to dark mode"}
           >
             {theme === "dark" ? (
-              <Sun className="h-4 w-4 text-amber-400" />
+              <Sun className="h-4 w-4 text-zinc-300" />
             ) : (
               <Moon className="h-4 w-4 text-zinc-700" />
             )}
@@ -141,7 +96,7 @@ export function Navbar() {
             <div className="flex items-center gap-3">
               <div className="hidden sm:block text-right">
                 <p className="text-xs font-semibold text-zinc-900 dark:text-zinc-100">{user.name}</p>
-                <p className="text-[10px] text-[#1877f2] font-mono font-medium">
+                <p className="text-[10px] text-zinc-500 font-mono font-medium">
                   {user.role}
                 </p>
               </div>
@@ -166,7 +121,7 @@ export function Navbar() {
                 </Button>
               </Link>
               <Link href="/signup">
-                <Button size="sm" className="text-xs h-8 bg-[#1877f2] hover:bg-[#166fe5] text-white shadow-sm">
+                <Button size="sm" className="text-xs h-8 bg-zinc-900 hover:bg-zinc-800 text-zinc-50 dark:bg-zinc-100 dark:hover:bg-zinc-200 dark:text-zinc-900 shadow-sm">
                   Sign Up
                 </Button>
               </Link>

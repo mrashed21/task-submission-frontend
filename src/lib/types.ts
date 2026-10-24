@@ -25,11 +25,17 @@ export interface Review {
   };
 }
 
+export interface ProjectLink {
+  title: string;
+  url: string;
+}
+
 export interface Submission {
   submission_id: string;
   project_name: string;
   repo_url: string;
   live_link: string;
+  additional_links?: ProjectLink[];
   description: string;
   status: SubmissionStatus;
   user_id: string;

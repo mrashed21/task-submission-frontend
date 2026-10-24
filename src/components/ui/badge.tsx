@@ -3,22 +3,22 @@ import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/utils";
 
 const badgeVariants = cva(
-  "inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-semibold border transition-colors focus:outline-none focus:ring-2 focus:ring-[#1877f2]",
+  "inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-semibold border transition-colors focus:outline-none focus:ring-2 focus:ring-zinc-950/20",
   {
     variants: {
       variant: {
         default:
-          "bg-[#1877f2]/10 text-[#1877f2] border-[#1877f2]/20 dark:bg-[#1877f2]/20 dark:text-[#38bdf8] dark:border-[#1877f2]/40",
+          "bg-[#1877f2] text-white border-transparent font-semibold shadow-xs",
         secondary:
-          "bg-zinc-100 text-zinc-700 border-zinc-200 dark:bg-zinc-900 dark:text-zinc-300 dark:border-zinc-800",
+          "bg-[#e7f3ff] text-[#1877f2] border-[#cbe4fc] dark:bg-[#1877f2]/20 dark:text-[#2d88ff] dark:border-[#1877f2]/30",
         success:
-          "bg-emerald-50 text-emerald-800 border-emerald-200 dark:bg-emerald-950/60 dark:text-emerald-300 dark:border-emerald-800/70",
+          "bg-[#e7f8ea] text-[#1f7a1f] border-[#c2eec7] dark:bg-[#42b72a]/20 dark:text-[#42b72a] dark:border-[#42b72a]/30",
         warning:
-          "bg-amber-50 text-amber-800 border-amber-200 dark:bg-amber-950/60 dark:text-amber-300 dark:border-amber-800/70",
+          "bg-[#fff8e5] text-[#b28900] border-[#ffe8a3] dark:bg-[#f7b125]/20 dark:text-[#f7b125] dark:border-[#f7b125]/30",
         destructive:
-          "bg-rose-50 text-rose-800 border-rose-200 dark:bg-rose-950/60 dark:text-rose-300 dark:border-rose-800/70",
+          "bg-[#fde8e8] text-[#c81e1e] border-[#f8b4b4] dark:bg-[#e41e3f]/20 dark:text-[#e41e3f] dark:border-[#e41e3f]/30",
         outline:
-          "bg-transparent text-zinc-700 border-zinc-300 dark:text-zinc-300 dark:border-zinc-800",
+          "bg-transparent text-[#050505] border-[#ced0d4] dark:text-[#e4e6eb] dark:border-[#3a3b3c]",
       },
     },
     defaultVariants: {

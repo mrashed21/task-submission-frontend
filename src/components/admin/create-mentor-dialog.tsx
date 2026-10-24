@@ -135,7 +135,7 @@ export function CreateMentorDialog({
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
           <div className="flex items-center gap-2.5">
-            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-purple-500/10 text-purple-600 dark:bg-purple-500/20 dark:text-purple-400">
+            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#e7f3ff] text-[#1877f2] dark:bg-[#1877f2]/20 dark:text-[#2d88ff]">
               <UserCheck className="h-5 w-5" />
             </div>
             <div>
@@ -156,12 +156,12 @@ export function CreateMentorDialog({
 
         {createdMentor ? (
           <div className="space-y-4 py-2">
-            <div className="rounded-xl border border-emerald-200 bg-emerald-50/70 p-4 text-emerald-950 dark:border-emerald-900/50 dark:bg-emerald-950/30 dark:text-emerald-200">
-              <div className="flex items-center gap-2 font-semibold text-emerald-700 dark:text-emerald-400">
+            <div className="rounded-xl border border-[#cbe4fc] bg-[#e7f3ff]/40 p-4 text-[#050505] dark:border-[#1877f2]/30 dark:bg-[#1877f2]/10 dark:text-[#e4e6eb]">
+              <div className="flex items-center gap-2 font-semibold text-[#1877f2] dark:text-[#2d88ff]">
                 <Check className="h-4 w-4" />
                 <span>Mentor Registered Successfully!</span>
               </div>
-              <p className="mt-1 text-xs text-emerald-800/80 dark:text-emerald-300/80">
+              <p className="mt-1 text-xs text-[#65676b] dark:text-[#b0b3b8]">
                 The account has been created with full evaluation permissions. Share these credentials with the mentor.
               </p>
             </div>
@@ -177,7 +177,7 @@ export function CreateMentorDialog({
               </div>
               <div className="flex justify-between items-center py-1">
                 <span className="text-zinc-500 dark:text-zinc-400 font-sans">Temporary Password:</span>
-                <span className="font-semibold text-purple-600 dark:text-purple-400">{createdMentor.password}</span>
+                <span className="font-semibold text-zinc-900 dark:text-zinc-100">{createdMentor.password}</span>
               </div>
             </div>
 
@@ -190,7 +190,7 @@ export function CreateMentorDialog({
               >
                 {copied ? (
                   <>
-                    <Check className="h-3.5 w-3.5 text-emerald-500" />
+                    <Check className="h-3.5 w-3.5 text-[#1877f2] dark:text-[#2d88ff]" />
                     <span>Copied Credentials</span>
                   </>
                 ) : (
@@ -203,7 +203,7 @@ export function CreateMentorDialog({
               <Button
                 type="button"
                 onClick={handleClose}
-                className="bg-purple-600 hover:bg-purple-700 text-white text-xs h-9"
+                className="bg-[#1877f2] hover:bg-[#166fe5] text-white text-xs h-9 shadow-sm"
               >
                 Done
               </Button>
@@ -255,7 +255,7 @@ export function CreateMentorDialog({
                 <button
                   type="button"
                   onClick={generateRandomPassword}
-                  className="inline-flex items-center gap-1 text-[11px] font-medium text-purple-600 hover:text-purple-700 dark:text-purple-400 dark:hover:text-purple-300"
+                  className="inline-flex items-center gap-1 text-[11px] font-semibold text-[#1877f2] hover:underline dark:text-[#2d88ff]"
                 >
                   <RefreshCw className="h-3 w-3" />
                   Generate Strong
@@ -295,7 +295,7 @@ export function CreateMentorDialog({
               <Button
                 type="submit"
                 disabled={isLoading}
-                className="gap-2 bg-purple-600 hover:bg-purple-700 text-white font-medium h-9 text-xs"
+                className="gap-2 bg-[#1877f2] hover:bg-[#166fe5] text-white font-medium h-9 text-xs shadow-sm"
               >
                 {isLoading ? (
                   <>

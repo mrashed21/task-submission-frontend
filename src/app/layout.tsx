@@ -24,7 +24,7 @@ export default function RootLayout({
   return (
     <html lang="en" className="dark" suppressHydrationWarning>
       <body
-        className={`${inter.variable} min-h-screen bg-white text-zinc-900 dark:bg-black dark:text-zinc-100 font-sans antialiased selection:bg-[#1877f2] selection:text-white transition-colors duration-150`}
+        className={`${inter.variable} min-h-screen bg-white text-zinc-900 dark:bg-zinc-950 dark:text-zinc-100 font-sans antialiased selection:bg-zinc-900 selection:text-white dark:selection:bg-zinc-100 dark:selection:text-zinc-900 transition-colors duration-150`}
       >
         <ThemeProvider>
           <AuthProvider>

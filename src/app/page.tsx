@@ -13,47 +13,39 @@ export default function HomePage() {
   const isStudent = user?.role === "STUDENT";
 
   return (
-    <div className="flex min-h-[calc(100vh-8rem)] items-center justify-center px-4 py-16 sm:px-6 lg:px-8 bg-white dark:bg-black">
+    <div className="flex min-h-[calc(100vh-8rem)] items-center justify-center px-4 py-16 sm:px-6 lg:px-8 bg-[#f0f2f5] dark:bg-[#18191a]">
       <div className="mx-auto max-w-2xl text-center space-y-6">
-        {/* Simple Brand Icon */}
-        <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-[#1877f2] text-white shadow-sm">
-          <FileCheck2 className="h-7 w-7" />
+        {/* Facebook Brand Icon */}
+        <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-[#1877f2] text-white shadow-lg shadow-[#1877f2]/25">
+          <FileCheck2 className="h-8 w-8" />
         </div>
 
-        {/* Minimal Pill */}
-        <div className="inline-flex items-center gap-2 rounded-full border border-zinc-200 bg-zinc-50 px-3.5 py-1 text-xs font-medium text-zinc-700 dark:border-zinc-800 dark:bg-zinc-950 dark:text-zinc-300">
+        {/* Facebook Soft Blue Pill */}
+        <div className="inline-flex items-center gap-2 rounded-full border border-[#cbe4fc] bg-[#e7f3ff] px-4 py-1.5 text-xs font-semibold text-[#1877f2] dark:border-[#1877f2]/30 dark:bg-[#1877f2]/15 dark:text-[#2d88ff]">
           <span>Project Evaluation Portal</span>
         </div>
 
-        {/* Minimal Heading */}
-        <h1 className="text-3xl font-extrabold tracking-tight text-zinc-900 dark:text-zinc-100 sm:text-5xl leading-tight">
-          DevReview<span className="text-[#1877f2]">Hub</span>
+        {/* Heading */}
+        <h1 className="text-3xl font-extrabold tracking-tight text-[#050505] dark:text-[#e4e6eb] sm:text-5xl leading-tight">
+          DevReviewHub
         </h1>
 
         {/* Short Subtitle */}
-        <p className="mx-auto max-w-lg text-sm sm:text-base text-zinc-600 dark:text-zinc-400 leading-relaxed">
-          A minimal, role-based platform for engineering students to submit assignments and mentors to evaluate code submissions with actionable feedback.
+        <p className="mx-auto max-w-lg text-sm sm:text-base text-[#65676b] dark:text-[#b0b3b8] leading-relaxed">
+          A role-based engineering platform for students to submit assignments and mentors to evaluate code submissions with actionable feedback.
         </p>
 
-        {/* Role-based Dynamic Actions */}
+        {/* Role-based Dynamic Actions - Strictly isolated to user's assigned dashboard */}
         <div className="flex flex-wrap items-center justify-center gap-3 pt-2">
           {user ? (
             isAdmin ? (
-              <div className="flex flex-wrap gap-3">
-                <Link href="/admin/dashboard">
-                  <Button size="lg" className="gap-2 bg-purple-600 hover:bg-purple-700 text-white font-semibold shadow-sm">
-                    <ShieldCheck className="h-5 w-5" />
-                    Open Admin Dashboard
-                    <ArrowRight className="h-4 w-4" />
-                  </Button>
-                </Link>
-                <Link href="/mentor/dashboard">
-                  <Button size="lg" variant="outline" className="gap-2 border-zinc-300 dark:border-zinc-800">
-                    <LayoutDashboard className="h-4 w-4" />
-                    Review Board
-                  </Button>
-                </Link>
-              </div>
+              <Link href="/admin/dashboard">
+                <Button size="lg" className="gap-2 bg-[#1877f2] hover:bg-[#166fe5] text-white font-semibold shadow-sm">
+                  <ShieldCheck className="h-5 w-5" />
+                  Open Admin Dashboard
+                  <ArrowRight className="h-4 w-4" />
+                </Button>
+              </Link>
             ) : isMentor ? (
               <Link href="/mentor/dashboard">
                 <Button size="lg" className="gap-2 bg-[#1877f2] hover:bg-[#166fe5] text-white font-semibold shadow-sm">
@@ -65,7 +57,7 @@ export default function HomePage() {
             ) : (
               <div className="flex flex-wrap gap-3">
                 <Link href="/student/submit">
-                  <Button size="lg" className="gap-2 bg-[#1877f2] hover:bg-[#166fe5] text-white font-semibold">
+                  <Button size="lg" className="gap-2 bg-[#1877f2] hover:bg-[#166fe5] text-white font-semibold shadow-sm">
                     <GraduationCap className="h-4 w-4" />
                     Submit Project
                   </Button>
@@ -74,7 +66,7 @@ export default function HomePage() {
                   <Button
                     size="lg"
                     variant="outline"
-                    className="border-zinc-300 dark:border-zinc-800 bg-transparent text-zinc-800 dark:text-zinc-200 hover:bg-zinc-100 dark:hover:bg-zinc-900"
+                    className="border-[#ced0d4] dark:border-[#3a3b3c] bg-white dark:bg-[#242526] text-[#050505] dark:text-[#e4e6eb] hover:bg-[#e4e6eb]/60 dark:hover:bg-[#3a3b3c]"
                   >
                     My Submissions
                   </Button>
@@ -94,9 +86,9 @@ export default function HomePage() {
                 <Button
                   size="lg"
                   variant="outline"
-                  className="border-zinc-300 dark:border-zinc-800 bg-transparent text-zinc-800 dark:text-zinc-200 hover:bg-zinc-100 dark:hover:bg-zinc-900"
+                  className="border-[#ced0d4] dark:border-[#3a3b3c] bg-white dark:bg-[#242526] text-[#050505] dark:text-[#e4e6eb] hover:bg-[#e4e6eb]/60 dark:hover:bg-[#3a3b3c]"
                 >
-                  Create Student Account
+                  Create Account
                 </Button>
               </Link>
             </div>

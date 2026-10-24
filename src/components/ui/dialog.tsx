@@ -8,9 +8,12 @@ interface DialogProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   children: React.ReactNode;
+  className?: string;
+  style?: React.CSSProperties;
+  id?: string;
 }
 
-export function Dialog({ open, onOpenChange, children }: DialogProps) {
+export function Dialog({ open, onOpenChange, children, className, style, id }: DialogProps) {
   useEffectDialogEsc(open, () => onOpenChange(false));
 
   if (!open) return null;
@@ -21,7 +24,14 @@ export function Dialog({ open, onOpenChange, children }: DialogProps) {
         className="fixed inset-0 bg-black/70 backdrop-blur-sm transition-opacity"
         onClick={() => onOpenChange(false)}
       />
-      <div className="relative z-50 w-full max-w-lg rounded-2xl border border-zinc-200 bg-white p-6 shadow-2xl dark:border-zinc-800 dark:bg-black animate-in fade-in-0 zoom-in-95 duration-200">
+      <div
+        id={id}
+        style={style}
+        className={cn(
+          "relative z-50 w-full max-w-lg max-h-[92vh] overflow-y-auto rounded-2xl border border-zinc-200 bg-white p-6 shadow-2xl dark:border-zinc-800 dark:bg-black animate-in fade-in-0 zoom-in-95 duration-200",
+          className
+        )}
+      >
         <button
           onClick={() => onOpenChange(false)}
           className="absolute right-4 top-4 rounded-md p-1 text-zinc-500 hover:bg-zinc-100 hover:text-zinc-900 dark:text-zinc-400 dark:hover:bg-zinc-900 dark:hover:text-white"
