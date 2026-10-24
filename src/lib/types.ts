@@ -52,6 +52,28 @@ export interface DashboardStats {
   approvalRate: number;
 }
 
+export interface MentorUser {
+  user_id: string;
+  name: string;
+  email: string;
+  role: UserRole;
+  created_at: string;
+  updated_at?: string;
+  reviewCount?: number;
+}
+
+export interface AdminStats {
+  totalMentors: number;
+  totalStudents: number;
+  totalAdmins: number;
+  totalSubmissions: number;
+  totalPending: number;
+  totalApproved: number;
+  totalRejected: number;
+  totalReviews: number;
+  approvalRate: number;
+}
+
 export interface ApiResponse<T> {
   success: boolean;
   statusCode: number;
@@ -65,3 +87,4 @@ export interface ApiResponse<T> {
   data?: T;
   errorSources?: Array<{ path: string; message: string }>;
 }
+

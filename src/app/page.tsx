@@ -1,14 +1,15 @@
 "use client";
 
 import Link from "next/link";
-import { ArrowRight, FileCheck2, GraduationCap, LayoutDashboard, LogIn } from "lucide-react";
+import { ArrowRight, FileCheck2, GraduationCap, LayoutDashboard, LogIn, ShieldCheck } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/lib/auth-context";
 
 export default function HomePage() {
   const { user } = useAuth();
 
-  const isMentor = user?.role === "MENTOR" || user?.role === "ADMIN";
+  const isAdmin = user?.role === "ADMIN";
+  const isMentor = user?.role === "MENTOR";
   const isStudent = user?.role === "STUDENT";
 
   return (
@@ -37,9 +38,25 @@ export default function HomePage() {
         {/* Role-based Dynamic Actions */}
         <div className="flex flex-wrap items-center justify-center gap-3 pt-2">
           {user ? (
-            isMentor ? (
+            isAdmin ? (
+              <div className="flex flex-wrap gap-3">
+                <Link href="/admin/dashboard">
+                  <Button size="lg" className="gap-2 bg-purple-600 hover:bg-purple-700 text-white font-semibold shadow-sm">
+                    <ShieldCheck className="h-5 w-5" />
+                    Open Admin Dashboard
+                    <ArrowRight className="h-4 w-4" />
+                  </Button>
+                </Link>
+                <Link href="/mentor/dashboard">
+                  <Button size="lg" variant="outline" className="gap-2 border-zinc-300 dark:border-zinc-800">
+                    <LayoutDashboard className="h-4 w-4" />
+                    Review Board
+                  </Button>
+                </Link>
+              </div>
+            ) : isMentor ? (
               <Link href="/mentor/dashboard">
-                <Button size="lg" className="gap-2 bg-[#1877f2] hover:bg-[#166fe5] text-white font-semibold">
+                <Button size="lg" className="gap-2 bg-[#1877f2] hover:bg-[#166fe5] text-white font-semibold shadow-sm">
                   <LayoutDashboard className="h-4 w-4" />
                   Open Mentor Dashboard
                   <ArrowRight className="h-4 w-4" />

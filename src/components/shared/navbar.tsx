@@ -10,6 +10,7 @@ import {
   LogOut,
   Moon,
   Send,
+  ShieldCheck,
   Sun,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -23,8 +24,9 @@ export function Navbar() {
   const { user, logout } = useAuth();
   const { theme, toggleTheme } = useTheme();
 
+  const isAdmin = user?.role === "ADMIN";
+  const isMentor = user?.role === "MENTOR";
   const isStudent = user?.role === "STUDENT";
-  const isMentor = user?.role === "MENTOR" || user?.role === "ADMIN";
 
   return (
     <header className="sticky top-0 z-40 w-full border-b border-zinc-200 bg-white text-zinc-900 dark:border-zinc-800 dark:bg-black dark:text-zinc-100 transition-colors duration-150">
@@ -44,6 +46,50 @@ export function Navbar() {
 
           {/* Navigation links based on logged-in role */}
           <nav className="hidden md:flex items-center gap-1.5 text-sm font-medium">
+            {isAdmin && (
+              <>
+                <Link
+                  href="/admin/dashboard"
+                  className={cn(
+                    "flex items-center gap-1.5 px-3 py-1.5 rounded-lg transition-colors",
+                    pathname.startsWith("/admin")
+                      ? "bg-purple-600/10 text-purple-600 font-semibold dark:bg-purple-600/20 dark:text-purple-400"
+                      : "text-zinc-600 hover:bg-zinc-100 hover:text-zinc-900 dark:text-zinc-300 dark:hover:bg-zinc-900 dark:hover:text-white"
+                  )}
+                >
+                  <ShieldCheck className="h-4 w-4" />
+                  Admin Dashboard
+                </Link>
+                <Link
+                  href="/mentor/dashboard"
+                  className={cn(
+                    "flex items-center gap-1.5 px-3 py-1.5 rounded-lg transition-colors",
+                    pathname === "/mentor/dashboard"
+                      ? "bg-[#1877f2]/10 text-[#1877f2] font-semibold dark:bg-[#1877f2]/20"
+                      : "text-zinc-600 hover:bg-zinc-100 hover:text-zinc-900 dark:text-zinc-300 dark:hover:bg-zinc-900 dark:hover:text-white"
+                  )}
+                >
+                  <LayoutDashboard className="h-4 w-4" />
+                  Review Dashboard
+                </Link>
+              </>
+            )}
+
+            {isMentor && (
+              <Link
+                href="/mentor/dashboard"
+                className={cn(
+                  "flex items-center gap-1.5 px-3 py-1.5 rounded-lg transition-colors",
+                  pathname === "/mentor/dashboard"
+                    ? "bg-[#1877f2]/10 text-[#1877f2] font-semibold dark:bg-[#1877f2]/20"
+                    : "text-zinc-600 hover:bg-zinc-100 hover:text-zinc-900 dark:text-zinc-300 dark:hover:bg-zinc-900 dark:hover:text-white"
+                )}
+              >
+                <LayoutDashboard className="h-4 w-4" />
+                Review Dashboard
+              </Link>
+            )}
+
             {isStudent && (
               <>
                 <Link
@@ -71,21 +117,6 @@ export function Navbar() {
                   My Submissions
                 </Link>
               </>
-            )}
-
-            {isMentor && (
-              <Link
-                href="/mentor/dashboard"
-                className={cn(
-                  "flex items-center gap-1.5 px-3 py-1.5 rounded-lg transition-colors",
-                  pathname === "/mentor/dashboard"
-                    ? "bg-[#1877f2]/10 text-[#1877f2] font-semibold dark:bg-[#1877f2]/20"
-                    : "text-zinc-600 hover:bg-zinc-100 hover:text-zinc-900 dark:text-zinc-300 dark:hover:bg-zinc-900 dark:hover:text-white"
-                )}
-              >
-                <LayoutDashboard className="h-4 w-4" />
-                Review Dashboard
-              </Link>
             )}
           </nav>
         </div>

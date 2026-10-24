@@ -32,13 +32,11 @@ export default function LoginPage() {
     setIsLoading(false);
 
     if (result.success) {
-      const isMentor =
-        result.user?.role === "MENTOR" ||
-        result.user?.role === "ADMIN" ||
-        email.toLowerCase().includes("mentor") ||
-        email.toLowerCase().includes("admin");
-
-      if (isMentor) {
+      const userRole = result.user?.role;
+      const emailLower = email.toLowerCase();
+      if (userRole === "ADMIN" || emailLower.includes("admin")) {
+        router.push("/admin/dashboard");
+      } else if (userRole === "MENTOR" || emailLower.includes("mentor")) {
         router.push("/mentor/dashboard");
       } else {
         router.push("/student/my-submissions");
