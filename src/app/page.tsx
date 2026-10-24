@@ -1,9 +1,9 @@
 "use client";
 
-import Link from "next/link";
-import { ArrowRight, FileCheck2, GraduationCap, LayoutDashboard, LogIn, ShieldCheck } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/lib/auth-context";
+import { ArrowRight, FileCheck2, GraduationCap, LayoutDashboard, LogIn, ShieldCheck } from "lucide-react";
+import Link from "next/link";
 
 export default function HomePage() {
   const { user } = useAuth();
@@ -27,7 +27,7 @@ export default function HomePage() {
 
         {/* Heading */}
         <h1 className="text-3xl font-extrabold tracking-tight text-[#050505] dark:text-[#e4e6eb] sm:text-5xl leading-tight">
-          DevReviewHub
+          Task Submission
         </h1>
 
         {/* Short Subtitle */}

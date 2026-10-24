@@ -1,20 +1,19 @@
 "use client";
 
-import React from "react";
-import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
-import {
-  FileCheck2,
-  LayoutDashboard,
-  LogOut,
-  Moon,
-  ShieldCheck,
-  Sun,
-} from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/lib/auth-context";
 import { useTheme } from "@/lib/theme-context";
 import { cn } from "@/lib/utils";
+import {
+    FileCheck2,
+    LayoutDashboard,
+    LogOut,
+    Moon,
+    ShieldCheck,
+    Sun,
+} from "lucide-react";
+import Link from "next/link";
+import { usePathname, useRouter } from "next/navigation";
 
 export function Navbar() {
   const pathname = usePathname();
@@ -37,7 +36,7 @@ export function Navbar() {
             </div>
             <div>
               <span className="text-base font-bold tracking-tight text-zinc-900 dark:text-zinc-100">
-                DevReviewHub
+                Task Submission
               </span>
             </div>
           </Link>

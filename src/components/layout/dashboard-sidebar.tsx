@@ -1,34 +1,33 @@
 "use client";
 
-import React, { useState } from "react";
-import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
-import {
-  Award,
-  CheckCircle2,
-  ChevronLeft,
-  ChevronRight,
-  Clock,
-  Code2,
-  FileCheck2,
-  GraduationCap,
-  LayoutDashboard,
-  LogOut,
-  Moon,
-  PlusCircle,
-  Send,
-  ShieldCheck,
-  Sparkles,
-  Sun,
-  UserCheck,
-  Users,
-  X,
-  XCircle,
-} from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/lib/auth-context";
 import { useTheme } from "@/lib/theme-context";
 import { cn } from "@/lib/utils";
+import {
+    Award,
+    CheckCircle2,
+    ChevronLeft,
+    ChevronRight,
+    Clock,
+    Code2,
+    FileCheck2,
+    GraduationCap,
+    LayoutDashboard,
+    LogOut,
+    Moon,
+    PlusCircle,
+    Send,
+    ShieldCheck,
+    Sparkles,
+    Sun,
+    Users,
+    X,
+    XCircle
+} from "lucide-react";
+import Link from "next/link";
+import { usePathname, useRouter } from "next/navigation";
+import { useState } from "react";
 import { CreateMentorDialog } from "../admin/create-mentor-dialog";
 
 interface DashboardSidebarProps {
@@ -93,7 +92,7 @@ export function DashboardSidebar({
                   {roleLabel}
                 </span>
                 <span className="block truncate text-sm font-semibold text-zinc-900 dark:text-zinc-100">
-                  DevReviewHub
+                  Task Submission
                 </span>
               </div>
             )}

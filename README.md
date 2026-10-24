@@ -1,4 +1,4 @@
-# 💻 DevReviewHub — Frontend Application
+# 💻 Task Submission— Frontend Application
 
 A modern, high-performance web application built with **Next.js (App Router)**, **TypeScript**, **Tailwind CSS**, and **shadcn/ui** design patterns. It serves as an intuitive portal for students to submit projects and track evaluations, and an efficient review dashboard for mentors to assess submissions in real time.
 

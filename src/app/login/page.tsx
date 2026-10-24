@@ -13,8 +13,8 @@ import { useAuth } from "@/lib/auth-context";
 export default function LoginPage() {
   const router = useRouter();
   const { login } = useAuth();
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("admin@gmail.com");
+  const [password, setPassword] = useState("123456");
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -78,7 +78,7 @@ export default function LoginPage() {
                 </div>
                 <Input
                   type="email"
-                  placeholder="admin@example.com or mentor@example.com"
+                  placeholder="admin@gmail.com, mentor@gmail.com or student@gmail.com"
                   className="pl-9"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
@@ -96,7 +96,7 @@ export default function LoginPage() {
                 </div>
                 <Input
                   type="password"
-                  placeholder="••••••••"
+                  placeholder="123456"
                   className="pl-9"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
@@ -122,14 +122,14 @@ export default function LoginPage() {
 
           {/* Quick autofill demo accounts */}
           <div className="mt-5 rounded-lg border border-zinc-200 bg-zinc-50 p-3 text-[11px] text-zinc-600 dark:border-zinc-800 dark:bg-zinc-950 dark:text-zinc-400">
-            <p className="font-semibold text-zinc-800 dark:text-zinc-200 mb-2">One-Click Demo Fill:</p>
+            <p className="font-semibold text-zinc-800 dark:text-zinc-200 mb-2">One-Click Demo Fill (Password: 123456):</p>
             <div className="grid grid-cols-3 gap-2">
               <button
                 type="button"
                 id="btn-fill-admin"
                 onClick={() => {
-                  setEmail("admin@example.com");
-                  setPassword("admin1234");
+                  setEmail("admin@gmail.com");
+                  setPassword("123456");
                 }}
                 className="rounded border border-[#cbe4fc] dark:border-[#1877f2]/30 bg-[#e7f3ff] dark:bg-[#1877f2]/20 px-2 py-1.5 text-center text-xs font-semibold hover:bg-[#d8ecff] transition-colors text-[#1877f2] dark:text-[#2d88ff]"
               >
@@ -139,8 +139,8 @@ export default function LoginPage() {
                 type="button"
                 id="btn-fill-mentor"
                 onClick={() => {
-                  setEmail("mentor@example.com");
-                  setPassword("mentor1234");
+                  setEmail("mentor@gmail.com");
+                  setPassword("123456");
                 }}
                 className="rounded border border-[#cbe4fc] dark:border-[#1877f2]/30 bg-[#e7f3ff] dark:bg-[#1877f2]/20 px-2 py-1.5 text-center text-xs font-semibold hover:bg-[#d8ecff] transition-colors text-[#1877f2] dark:text-[#2d88ff]"
               >
@@ -150,8 +150,8 @@ export default function LoginPage() {
                 type="button"
                 id="btn-fill-student"
                 onClick={() => {
-                  setEmail("student@example.com");
-                  setPassword("student1234");
+                  setEmail("student@gmail.com");
+                  setPassword("123456");
                 }}
                 className="rounded border border-[#cbe4fc] dark:border-[#1877f2]/30 bg-[#e7f3ff] dark:bg-[#1877f2]/20 px-2 py-1.5 text-center text-xs font-semibold hover:bg-[#d8ecff] transition-colors text-[#1877f2] dark:text-[#2d88ff]"
               >
